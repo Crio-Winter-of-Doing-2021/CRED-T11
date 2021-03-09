@@ -22,11 +22,13 @@ db.sequelize = sequelize;
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.card = require("./card.model.js")(sequelize, Sequelize);
 
-db.user.hasMany(db.card,{as:"card"});
-db.card.belongsTo(db.user,{
-  foreignKey:"id",
-  as:"user"
-})
+// db.user.hasMany(db.card,{as:"cards"});
+// db.card.belongsTo(db.user,{
+//   foreignKey:"id",
+//   as:"users"
+// })
+db.user.hasMany(db.card, {foreignKey: 'id', sourceKey: 'card_no'});
+db.card.belongsTo(db.user, {foreignKey: 'id', targetKey: 'card_no'})
 
 
 module.exports = db;
