@@ -19,6 +19,14 @@ const db = {};
 db.Sequelize = Sequelize;
 db.sequelize = sequelize;
 
-db.user = require("../models/user.model.js")(sequelize, Sequelize);
+db.user = require("./user.model.js")(sequelize, Sequelize);
+db.card = require("./card.model.js")(sequelize, Sequelize);
+
+db.user.hasMany(db.card,{as:"card"});
+db.card.belongsTo(db.user,{
+  foreignKey:"id",
+  as:"user"
+})
+
 
 module.exports = db;
