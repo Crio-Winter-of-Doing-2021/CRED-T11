@@ -6,7 +6,7 @@ exports.addcard = (req, res) => {
     card_no: req.body.card_no,
     expiry_date: req.body.expiry_date,
     card_name: req.body.card_name,
-    id: req.body.id,
+    userId: req.body.id,
   })
     .then((result) => {
       console.log("card added successfully");
