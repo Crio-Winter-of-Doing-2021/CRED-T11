@@ -1,4 +1,3 @@
-const uuid = require("uuidv4");
 const { Sequelize, DataTypes, Model } = require("sequelize");
 
 module.exports = (sequelize, Sequelize) => {
@@ -19,7 +18,6 @@ module.exports = (sequelize, Sequelize) => {
     },
   });
 
-  //   User.beforeCreate((user) => (user.id = uuid()));
 
   return User;
 };
