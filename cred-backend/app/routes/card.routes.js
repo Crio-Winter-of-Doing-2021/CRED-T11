@@ -1,4 +1,4 @@
-const { authJwt } = require("../middleware");
+const { authJwt, validateCard } = require("../middleware");
 const controller = require("../controllers/card.controller");
 module.exports = function (app) {
   app.use(function (req, res, next) {
@@ -11,8 +11,7 @@ module.exports = function (app) {
 
   app.post(
     "/api/addcard",
-    [authJwt.verifyToken],
+    [authJwt.verifyToken, validateCard.checkCardValidation],
     controller.addcard
   );
-
 };
