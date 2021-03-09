@@ -1,10 +1,10 @@
 const db = require("../models");
 const Card = db.card;
-const luhnCheck = require("../utils/utils")
+const luhnCheck = require("../utils/utils.js")
 
 
 checkCardValidation = (req, res, next) => {
-  const card_no = parse.Float(req.body.card_no)
+  const card_no = parseInt(req.body.card_no)
   if (luhnCheck(card_no)) {
     Card.findOne({
       where: {
