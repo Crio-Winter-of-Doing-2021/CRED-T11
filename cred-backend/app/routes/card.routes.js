@@ -12,6 +12,12 @@ module.exports = function (app) {
   app.post(
     "/api/addcard",
     [authJwt.verifyToken, validateCard.checkCardValidation],
-    controller.addcard
+    controller.addCard
+  );
+
+  app.get(
+    "/api/viewcard",
+    [authJwt.verifyToken],
+    controller.viewCard
   );
 };
