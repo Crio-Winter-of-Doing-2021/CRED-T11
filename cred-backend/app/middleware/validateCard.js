@@ -28,9 +28,40 @@ checkCardValidation = (req, res, next) => {
 
 };
 
+checkCardById=(req,res,next)=>{
+    Card.findOne({
+      where:{
+        id:req.params.id
+      }
+    }).then((card)=>{
+      if(!card){
+        res.status(400).send({message:"card doesn't exist"});
+        return;
+      }
+      next();
+      
+    })
+    
 
+}
+checkCardByUserId=(req,res,next)=>{
+  Card.findOne({
+    where:{
+      id:req.params.id,
+      userId:req.userId
+    }
+  }).then((card)=>{
+    if(!card){
+      res.status(401).send({message:"you are not authorized to view card"})
+      return;
+    }
+    next();
+  })
+}
 const validateCard = {
   checkCardValidation: checkCardValidation,
+  checkCardById:checkCardById,
+  checkCardByUserId:checkCardByUserId
 };
 
 module.exports = validateCard;

@@ -20,4 +20,17 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     controller.viewCard
   );
+  
+  app.post(
+    "/api/cards/:id/statements/:year/:month",
+    [validateCard.checkCardById],
+    controller.statementCard
+  );
+
+  app.get(
+    "/api/cards/:id/statements/:year/:month",
+    [authJwt.verifyToken,validateCard.checkCardById,validateCard.checkCardByUserId],
+    controller.viewStatements
+  )
+
 };

@@ -4,7 +4,7 @@ module.exports = (sequelize, Sequelize) => {
         type: Sequelize.STRING,
       },
       expiry_date: {
-        type: Sequelize.DATE,
+        type: Sequelize.STRING,
       },
       card_name: {
         type: Sequelize.STRING,
