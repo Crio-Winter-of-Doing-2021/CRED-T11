@@ -33,4 +33,10 @@ module.exports = function (app) {
     controller.viewStatements
   )
 
+  app.post(
+    "/api/card/:id/pay",
+    [authJwt.verifyToken,validateCard.checkCardById,validateCard.checkCardByUserId],
+    controller.amountPay
+  )
+
 };
