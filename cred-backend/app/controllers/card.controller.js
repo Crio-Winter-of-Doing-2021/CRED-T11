@@ -48,10 +48,7 @@ exports.viewStatements=(req,res)=>{
   Transaction.findAll({
     where:{
       cardId:id,
-      transaction_date:{
-        [Op.iLike]: `%${year+'-'+month}%`
-        
-      }
+      transaction_date: year+'-'+month
     }
   }).then((data)=>{
     console.log(data)
