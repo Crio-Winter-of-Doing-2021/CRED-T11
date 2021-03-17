@@ -1,5 +1,4 @@
 const db = require("../models");
-const { Op } = require("sequelize");
 const Card = db.card;
 const Transaction = db.transaction;
 const {sendJSONResponse,sendBadRequest} = require("../utils/handle");
@@ -17,45 +16,50 @@ exports.addCard = async (req, res) => {
   } 
 };
 
-exports.viewCard = (req, res) => {
-  console.log(req.userId);
-  Card.findAll({
-    where: {
-      userId: req.userId,
-    },
-  }).then((Card) => {
-    res.status(201).send({ data: Card });
-  });
-};
-
-exports.statementCard = (req, res) => {
-  const { id, year, month } = req.params;
-  Transaction.create({
-    amount: req.body.amount,
-    vendor: req.body.vendor,
-    transaction_type: req.body.transaction_type,
-    transaction_date: year + "-" + month,
-    category: req.body.category,
-    cardId: id,
-  })
-    .then((result) => {
-      res.status(200).send({ message: "transaction added successfully" });
+exports.viewCard = async (req, res) => {
+  try{
+    const card = await Card.findAll({
+      where: {
+        userId: req.userId,
+      },
     })
-    .catch((err) => console.log(err));
+    return sendJSONResponse(res,201,"All cards of user",card)
+
+  }catch(err){
+    return sendBadRequest(res,500,`${err.message}`);
+  }
 };
 
-exports.viewStatements = (req, res) => {
-  const { id, year, month } = req.params;
-  Transaction.findAll({
-    where: {
-      cardId: id,
+exports.statementCard = async (req, res) => {
+  try{
+    const { id, year, month } = req.params;
+    await Transaction.create({
+      amount: req.body.amount,
+      vendor: req.body.vendor,
+      transaction_type: req.body.transaction_type,
       transaction_date: year + "-" + month,
-    },
-  }).then((data) => {
-    console.log(data);
-    res.status(200).send({ data: data });
-  });
-  console.log(id);
+      category: req.body.category,
+      cardId: id,
+    })
+    return sendJSONResponse(res,200,"transaction added successfully");
+  }catch(err){
+    return sendBadRequest(res,500,`${err.message}`);
+  }
+};
+
+exports.viewStatements = async (req, res) => {
+  try{
+    const { id, year, month } = req.params;
+    const data = await Transaction.findAll({
+      where: {
+        cardId: id,
+        transaction_date: year + "-" + month,
+      },
+    })
+    return sendJSONResponse(res,200,"Statement details",data);
+  }catch(err){
+    return sendBadRequest(res,500,`${err.message}`);
+  }
 };
 
 exports.amountPay = (req, res) => {
