@@ -1,63 +1,65 @@
 const db = require("../models");
 const Card = db.card;
-const luhnCheck = require("../utils/utils.js")
+const luhnCheck = require("../utils/utils.js");
+const {sendBadRequest} = require("../utils/handle");
 
 
-checkCardValidation = (req, res, next) => {
-  const card_no = parseInt(req.body.card_no)
-  if (luhnCheck(card_no)) {
-    Card.findOne({
-      where: {
-        card_no: req.body.card_no,
-      },
-    }).then((card) => {
-      if (card) {
-        res.status(400).send({
-          message: "Failed! Card is already exist!",
-        });
-        return;
-      }
-
-      next();
-    });
-  } else {
-    res.status(400).send({
-      message: "Invalid card number!"
+checkCardValidation = async (req, res, next) => {
+  try{
+    const card_no = parseInt(req.body.card_no)
+    if (luhnCheck(card_no)) {
+      const card = await Card.findOne({
+        where: {
+          card_no: req.body.card_no,
+        },
     })
+    if (card) {
+      return sendBadRequest(res,400,"Failed! Card already exist!");
+    }
+    }else {
+      return sendBadRequest(res,400,"Invalid card number!");
+    }
+    next();
+  }catch(err){
+    return sendBadRequest(res,500,`${err.message}`)
   }
-
+  
 };
 
-checkCardById=(req,res,next)=>{
-    Card.findOne({
+checkCardById = async (req,res,next) => {
+  try{
+    const card = await Card.findOne({
       where:{
         id:req.params.id
       }
-    }).then((card)=>{
-      if(!card){
-        res.status(400).send({message:"card doesn't exist"});
-        return;
-      }
-      next();
-      
     })
-    
-
-}
-checkCardByUserId=(req,res,next)=>{
-  Card.findOne({
-    where:{
-      id:req.params.id,
-      userId:req.userId
-    }
-  }).then((card)=>{
     if(!card){
-      res.status(401).send({message:"you are not authorized to view card"})
-      return;
+      return sendBadRequest(res,400,"card doesn't exist");
     }
     next();
-  })
+  }catch(err){
+    return sendBadRequest(res,500,`${err.message}`)
+  }
+  
 }
+checkCardByUserId = async (req,res,next) => {
+  try{
+    const card = await Card.findOne({
+      where:{
+        id:req.params.id,
+        userId:req.userId
+      }
+    })
+    if(!card){
+      return sendBadRequest(res,401,"You are not authorized to view card");
+    }
+    next();
+  }catch(err){
+    return sendBadRequest(res,500,`${err.message}`)
+  }
+  
+};
+
 const validateCard = {
   checkCardValidation: checkCardValidation,
   checkCardById:checkCardById,
