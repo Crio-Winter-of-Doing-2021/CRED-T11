@@ -62,14 +62,15 @@ exports.viewStatements = async (req, res) => {
   }
 };
 
-exports.amountPay = (req, res) => {
-  Card.findOne({
-    where: {
-      id: req.params.id,
-    },
-  })
-    .then((card) => {
-      Card.update(
+exports.amountPay = async (req, res) => {
+  try{
+    const card = await Card.findOne({
+      where: {
+        id: req.params.id,
+      },
+    })
+    if(card){
+      await Card.update(
         {
           amount_paid: req.body.amount + card.amount_paid,
         },
@@ -79,10 +80,9 @@ exports.amountPay = (req, res) => {
           },
         }
       )
-        .then((result) => {
-          console.log("amount paid successfully");
-        })
-        .catch((err) => console.log(err));
-    })
-    .catch((err) => console.log(err));
+      return sendJSONResponse(res,200,"Amount Paid successfully");
+    }
+  }catch(err){
+    return sendBadRequest(res,500,`${err.message}`);
+  }
 };
