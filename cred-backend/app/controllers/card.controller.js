@@ -2,17 +2,19 @@ const db = require("../models");
 const { Op } = require("sequelize");
 const Card = db.card;
 const Transaction = db.transaction;
-exports.addCard = (req, res) => {
-  return Card.create({
-    card_no: req.body.card_no,
-    expiry_date: req.body.expiry_date,
-    card_name: req.body.card_name,
-    userId: req.userId,
-  })
-    .then((result) => {
-      res.status(201).send({ message: "card added successfully!" });
+const {sendJSONResponse,sendBadRequest} = require("../utils/handle");
+exports.addCard = async (req, res) => {
+  try {
+   await Card.create({
+      card_no: req.body.card_no,
+      expiry_date: req.body.expiry_date,
+      card_name: req.body.card_name,
+      userId: req.userId,
     })
-    .catch((err) => console.log(err));
+    return sendJSONResponse(res,201,"card added successfully!");
+  }catch(err){
+    return sendBadRequest(res,500,`${err.message}`);
+  } 
 };
 
 exports.viewCard = (req, res) => {
