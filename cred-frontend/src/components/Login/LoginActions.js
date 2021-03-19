@@ -6,7 +6,7 @@ import { setAxiosAuthToken, toastOnError } from "../../utils/Utils";
 
 
 export const login = (userData, redirectTo) => dispatch => {
-    axios.post("api/login/", userData)
+    axios.post("api/auth/login/", userData)
         .then(response => {
             // console.log(response.data.token)
             const auth_token = response.data.token;
@@ -23,7 +23,7 @@ export const login = (userData, redirectTo) => dispatch => {
 
 
 export const getCurrentUser = redirectTo => dispatch => {
-    axios.get("api/login/")
+    axios.get("api/auth/signin/")
         .then(response => {
             const user = {
                 username: response.data.username

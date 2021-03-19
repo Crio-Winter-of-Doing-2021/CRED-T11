@@ -9,7 +9,7 @@ import {
 
 export const signNewUser = userData => dispatch => {
     dispatch({ type: CREATE_USER_SUBMITTED });
-    axios.post("/api/signup/", userData)
+    axios.post("/api/auth/signup/", userData)
         .then(response => {
             toast.success(
                 "Account for " +
