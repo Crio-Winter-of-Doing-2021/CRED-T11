@@ -13,7 +13,7 @@ export const login = (userData, redirectTo) => dispatch => {
             // console.log(response.data);
             setAxiosAuthToken(auth_token);
             dispatch(setToken(auth_token));
-            dispatch(getCurrentUser(redirectTo));
+            // dispatch(getCurrentUser(redirectTo));
         })
         .catch(error => {
             dispatch(unsetCurrentUser());
@@ -22,19 +22,19 @@ export const login = (userData, redirectTo) => dispatch => {
 };
 
 
-export const getCurrentUser = redirectTo => dispatch => {
-    axios.get("api/auth/signin/")
-        .then(response => {
-            const user = {
-                username: response.data.username
-            }
-            dispatch(setCurrentUser(user, redirectTo));
-        })
-        .catch(error => {
-            dispatch(unsetCurrentUser());
-            toastOnError(error)
-        });
-};
+// export const getCurrentUser = redirectTo => dispatch => {
+//     axios.get("api/auth/signin/")
+//         .then(response => {
+//             const user = {
+//                 username: response.data.username
+//             }
+//             dispatch(setCurrentUser(user, redirectTo));
+//         })
+//         .catch(error => {
+//             dispatch(unsetCurrentUser());
+//             toastOnError(error)
+//         });
+// };
 
 export const setCurrentUser = (user, redirectTo) => dispatch => {
     localStorage.setItem("user", JSON.stringify(user));

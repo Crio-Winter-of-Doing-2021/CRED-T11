@@ -6,7 +6,6 @@ import Button from '@material-ui/core/Button';
 import IconButton from '@material-ui/core/IconButton';
 import {useSelector,useDispatch} from 'react-redux';
 import {logout} from '../Login/LoginActions';
-import ArticleList from '../Articles/ArticleList';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -50,7 +49,7 @@ export default function DashBoard() {
           </Typography>
           <Button color="inherit" onClick={Logout}>Log Out</Button>
         </Toolbar>
-      <ArticleList/>
+      {/* <ArticleList/> */}
     </div>
   );
 }

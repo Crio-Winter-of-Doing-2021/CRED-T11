@@ -20,7 +20,7 @@ function App() {
       <Switch>
         <Route path="/signup" component={Signup} />
         <Route path="/login" component={Login} />
-        <Route path="/dashboard" component={requireAuth(DashBoard)}/>
+        {/* <Route path="/dashboard" component={requireAuth(DashBoard)}/> */}
       </Switch>
     </Root>
   );
