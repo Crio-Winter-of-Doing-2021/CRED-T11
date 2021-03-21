@@ -3,15 +3,12 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import { Link, useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useForm, Controller } from 'react-hook-form';
-import { login } from "./LoginActions.js";
-import { useDispatch,useSelector } from 'react-redux';
-
 
 
 const useStyles = makeStyles((theme) => ({
@@ -36,17 +33,14 @@ const useStyles = makeStyles((theme) => ({
 
 export default function LogIn() {
   const classes = useStyles();
-  const dispatch = useDispatch();
   const { handleSubmit, control, errors } = useForm();
-  const user = useSelector(state => state.auth.user)
-  const history=useHistory()
-  useEffect(()=>{
-    if(user.username!==undefined){
-      history.push('/dashboard')
-    }
-  })
+  // useEffect(()=>{
+  //   if(user.username!==undefined){
+  //     history.push('/dashboard')
+  //   }
+  // })
   const onSubmit = (data) => {
-    dispatch(login(data, "/dashboard"))
+    // dispatch(login(data, "/dashboard"))
     console.log(data);
   }
 

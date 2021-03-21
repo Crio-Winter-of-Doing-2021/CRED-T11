@@ -9,8 +9,7 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useForm, Controller } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { signNewUser } from './SignupActions';
+import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
   paper: {
@@ -34,11 +33,15 @@ const useStyles = makeStyles((theme) => ({
 
 export default function SignIn() {
   const classes = useStyles();
-  const createUser = useSelector(state => state.createUser)
-  const dispatch = useDispatch();
   const { handleSubmit, control } = useForm();
-  const onSubmit = (data) => {
-    dispatch(signNewUser(data));
+  const onSubmit = async (data) => {
+    try{
+    const res =await axios.post('http://localhost:8080/api/auth/signup',data)
+    console.log(res)
+    }catch(err){
+      console.log({err})
+      console.log(err.response.data.metadata.message)
+    }
   }
 
   return (
@@ -59,7 +62,14 @@ export default function SignIn() {
             name="username"
             fullWidth
             autoFocus control={control} defaultValue="" />
-          {createUser.usernameError}
+          <Controller as={TextField} variant="outlined"
+            margin="normal"
+            required
+            id="email"
+            label="Email"
+            name="email"
+            fullWidth
+            autoFocus control={control} defaultValue="" />
           <Controller as={TextField} variant="outlined"
             margin="normal"
             required
@@ -68,7 +78,6 @@ export default function SignIn() {
             name="password"
             fullWidth
             control={control} defaultValue="" />
-          {createUser.password}
           <Button
             type="submit"
             fullWidth

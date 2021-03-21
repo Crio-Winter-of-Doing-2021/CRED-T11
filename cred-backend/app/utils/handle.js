@@ -9,7 +9,6 @@ const sendJSONResponse = (res, status, message, data) => {
 
     res.status(status);
     return res.send(jsonResponse);
-
 }
 
 const sendBadRequest = (res, status, errMsg) => {
