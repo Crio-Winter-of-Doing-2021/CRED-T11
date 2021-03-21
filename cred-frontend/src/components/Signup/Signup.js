@@ -1,4 +1,4 @@
-import React from 'react';
+import React,{useContext,useState} from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -9,6 +9,8 @@ import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import { useForm, Controller } from 'react-hook-form';
+import { Redirect } from 'react-router-dom';
+import {AuthContext} from '../../context';
 import axios from 'axios';
 
 const useStyles = makeStyles((theme) => ({
@@ -34,14 +36,26 @@ const useStyles = makeStyles((theme) => ({
 export default function SignIn() {
   const classes = useStyles();
   const { handleSubmit, control } = useForm();
+  const [status,setStatus]=useState();
+  const authContext = useContext(AuthContext);
+
   const onSubmit = async (data) => {
     try{
     const res =await axios.post('api/auth/signup',data)
+    setStatus(res.status);
     console.log(res)
+    // return <Redirect to='/login'/>
+    
     }catch(err){
       console.log({err})
       console.log(err.response.data.metadata.message)
     }
+  }
+  if(status){
+    return <Redirect to='/login'/>
+  }
+  if(authContext.isLoggedIn){
+    return <Redirect to='/dashboard' />
   }
 
   return (
