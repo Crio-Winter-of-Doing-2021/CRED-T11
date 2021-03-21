@@ -36,7 +36,7 @@ export default function SignIn() {
   const { handleSubmit, control } = useForm();
   const onSubmit = async (data) => {
     try{
-    const res =await axios.post('http://localhost:8080/api/auth/signup',data)
+    const res =await axios.post('api/auth/signup',data)
     console.log(res)
     }catch(err){
       console.log({err})
