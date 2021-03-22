@@ -8,7 +8,7 @@ export default function DashBoard() {
   const classes = useStyles();
   console.log(authContext.isLoggedIn);
   return (
-    authContext.isLoggedIn && (
+    true && (
       <div className={classes.root}>
         <div className={classes.userData}>
           <Avatar className={classes.avatar}></Avatar>
