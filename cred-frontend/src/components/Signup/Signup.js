@@ -13,26 +13,6 @@ import { Redirect } from 'react-router-dom';
 import {AuthContext} from '../../context';
 import axios from 'axios';
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
-
 export default function SignIn() {
   const classes = useStyles();
   const { handleSubmit, control } = useForm();
@@ -54,9 +34,9 @@ export default function SignIn() {
   if(status){
     return <Redirect to='/login'/>
   }
-  if(authContext.isLoggedIn){
-    return <Redirect to='/dashboard' />
-  }
+  // if(authContext.isLoggedIn){
+  //   return <Redirect to='/dashboard' />
+  // }
 
   return (
     <Container component="main" maxWidth="xs">
@@ -65,7 +45,7 @@ export default function SignIn() {
         <Avatar className={classes.avatar}>
         </Avatar>
         <Typography component="h1" variant="h5">
-          Sign Up
+          JOIN CRED
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
           <Controller as={TextField} variant="outlined"
@@ -99,17 +79,32 @@ export default function SignIn() {
             color="secondary"
             className={classes.submit}
           >
-            Sign Up
+            Submit
           </Button>
-          <Grid container>
-            <Grid item >
-              <Link to="/login" >
-                {"Already have an account ? Login"}
-              </Link>
-            </Grid>
-          </Grid>
         </form>
       </div>
     </Container>
   );
 }
+
+
+const useStyles = makeStyles((theme) => ({
+  paper: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
+  },
+  avatar: {
+    margin: theme.spacing(1),
+    backgroundColor: 'black',
+    height: 80,
+    width: 80,
+  },
+  form: {
+    width: '100%', // Fix IE 11 issue.
+    marginTop: theme.spacing(1),
+  },
+  submit: {
+    margin: theme.spacing(3, 0, 2),
+  },
+}));
