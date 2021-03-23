@@ -13,7 +13,7 @@ import { Redirect } from 'react-router-dom';
 import {AuthContext} from '../../context';
 import axios from 'axios';
 
-export default function SignIn() {
+export default function SignUp() {
   const classes = useStyles();
   const { handleSubmit, control } = useForm();
   const [status,setStatus]=useState();

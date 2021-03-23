@@ -4,6 +4,7 @@ import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthContext } from "./context";
 import Signup from "./components/Signup/Signup";
 import Login from "./components/Login/Login";
+import ViewCard from "./components/ViewCard/ViewCard";
 import DashBoard from "./components/DashBoard/DashBoard";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
@@ -44,6 +45,7 @@ function App() {
           <Route exact path="/" component={Landing} />
           <Route exact path="/dashboard" component={DashBoard} />
           <Route exact path="/addcard" component={AddCard} />
+          <Route exact path="/viewCards" component={ViewCard} />
         </Switch>
       </Router>
     </AuthContext.Provider>

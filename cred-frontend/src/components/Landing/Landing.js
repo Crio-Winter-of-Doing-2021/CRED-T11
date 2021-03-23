@@ -15,8 +15,7 @@ export default function Landing() {
         <Card className={classes.card}>
           <span className={classes.title}>CRED BANNER</span>
           <p className={classes.para}>
-            ye ek bahut bada sa paragaraph about cred ki cred bahut accha app
-            you should use that hkhi ahkjdhiu hajdhdiuhad
+          Credit card management is to make payment of bills and keeping track of transactions easy for the consumers, across multiple credit cards.
           </p>
         </Card>
       </Box>

@@ -42,7 +42,7 @@ export default function LogIn() {
 
   return (
     <>
-      {authContext.isLoggedIn && (
+      {true && (
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <div className={classes.paper}>
