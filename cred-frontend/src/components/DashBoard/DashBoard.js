@@ -2,11 +2,22 @@ import { Avatar, BottomNavigation, BottomNavigationAction, Button, makeStyles } 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import React, { useContext } from "react";
 import { AuthContext } from "../../context";
+import { Redirect,useHistory } from 'react-router-dom';
 
 export default function DashBoard() {
   const authContext = useContext(AuthContext);
   const classes = useStyles();
-  console.log(authContext.isLoggedIn);
+  const history = useHistory();
+  const user = authContext.user;
+  const handleOption = (type) => {
+    console.log(type)
+    switch (type) {
+      case 'ADD':
+        return history.push('/addcard');
+      case 'VIEW':
+        return history.push('/viewCards');
+    }
+  }
   return (
     true && (
       <div className={classes.root}>
@@ -14,9 +25,10 @@ export default function DashBoard() {
           <Avatar className={classes.avatar}></Avatar>
           <div className={classes.title}>
             <p>
-              USERNAME
+              {user.username}
               <br />
-              PayBill for month -2000
+              {user.email}
+              {/* PayBill for month -2000 */}
             </p>
           </div>
         </div>
@@ -25,6 +37,7 @@ export default function DashBoard() {
             className={classes.button}
             variant="outlined"
             color="secondary"
+            onClick={() => { handleOption('ADD') }}
           >
             ADD CARD
           </Button>
@@ -32,15 +45,16 @@ export default function DashBoard() {
             className={classes.button}
             variant="outlined"
             color="secondary"
+            onClick={() => { handleOption('VIEW') }}
           >
             VIEW CARDS
           </Button>
         </div>
         <BottomNavigation
-        showLabels
-        value
+          showLabels
+          value
         >
-        <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
+          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
         </BottomNavigation>
       </div>
     )

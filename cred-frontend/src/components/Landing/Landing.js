@@ -5,6 +5,7 @@ import SignIn from "../Signup/Signup";
 
 export default function Landing() {
   const classes = useStyles();
+ 
   const [isLoginOption, setisLoginOption] = useState(false);
   const handleOption = (value) => {
     setisLoginOption(value); 

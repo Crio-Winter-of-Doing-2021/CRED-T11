@@ -24,19 +24,16 @@ export default function SignUp() {
     const res =await axios.post('api/auth/signup',data)
     setStatus(res.status);
     console.log(res)
-    // return <Redirect to='/login'/>
+    return <Redirect to='/dashboard'/>
     
     }catch(err){
       console.log({err})
       console.log(err.response.data.metadata.message)
     }
   }
-  if(status){
-    return <Redirect to='/login'/>
+  if(authContext.isLoggedIn){
+    return <Redirect to='/dashboard' />
   }
-  // if(authContext.isLoggedIn){
-  //   return <Redirect to='/dashboard' />
-  // }
 
   return (
     <Container component="main" maxWidth="xs">

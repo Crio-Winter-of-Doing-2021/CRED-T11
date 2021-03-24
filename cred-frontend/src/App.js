@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
-import { ToastContainer } from "react-toastify";
+// import { ToastContainer } from "react-toastify";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import { AuthContext } from "./context";
-import Signup from "./components/Signup/Signup";
-import Login from "./components/Login/Login";
 import ViewCard from "./components/ViewCard/ViewCard";
 import DashBoard from "./components/DashBoard/DashBoard";
 import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Landing from "./components/Landing/Landing";
 import AddCard from "./components/AddCard/AddCard";
+import "./utils/Utils";
+import { setAxiosAuthToken } from "./utils/Utils";
 if (window.location.origin === "http://localhost:3000") {
   axios.defaults.baseURL = "http://127.0.0.1:8080";
 } else {
@@ -17,28 +17,34 @@ if (window.location.origin === "http://localhost:3000") {
 }
 function App() {
   const [token, setToken] = useState(null);
+  const [user,setUser] = useState({});
 
-  const login = (token) => {
+  const login = (token,user) => {
     setToken(token);
-    localStorage.setItem("userData", JSON.stringify({ token }));
+    setUser(user);
+    setAxiosAuthToken(token);  
+    localStorage.setItem("token", JSON.stringify(token));
+    localStorage.setItem("userData",JSON.stringify(user));
   };
   const logout = () => {
     setToken(null);
+    localStorage.removeItem("token");
     localStorage.removeItem("userData");
   };
   useEffect(() => {
-    console.log(!!token);
-    const storedData = JSON.parse(localStorage.getItem("userData"));
+    // console.log(!!token);
+    const storedData = JSON.parse(localStorage.getItem("token"));
+    const userData = JSON.parse(localStorage.getItem("userData"));
 
-    if (storedData && storedData.token) {
-      console.log(storedData.token);
-      login(storedData.token);
-    }
-  }, [login]);
+    if (storedData && userData && storedData) {
+      // console.log(storedData.token);
+      login(storedData,userData);
+    } 
+  }, []);
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: !!token, login: login, logut: logout }}
+      value={{ isLoggedIn: !!token,user:user, login: login, logut: logout }}
     >
       <Router>
         <Switch>
