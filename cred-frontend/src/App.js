@@ -8,8 +8,11 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Landing from "./components/Landing/Landing";
 import AddCard from "./components/AddCard/AddCard";
-import "./utils/Utils";
 import { setAxiosAuthToken } from "./utils/Utils";
+import Statement from "./components/Statement/Statement";
+import Pay from "./components/Pay/Pay";
+
+
 if (window.location.origin === "http://localhost:3000") {
   axios.defaults.baseURL = "http://127.0.0.1:8080";
 } else {
@@ -52,6 +55,8 @@ function App() {
           <Route exact path="/dashboard" component={DashBoard} />
           <Route exact path="/addcard" component={AddCard} />
           <Route exact path="/viewCards" component={ViewCard} />
+          <Route exact path="/statement" component={Statement} />
+          <Route exact path="/pay" component={Pay} />
         </Switch>
       </Router>
     </AuthContext.Provider>
