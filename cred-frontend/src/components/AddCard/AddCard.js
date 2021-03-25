@@ -1,13 +1,29 @@
 import Button from "@material-ui/core/Button";
-import React from 'react'
+import React from "react";
 import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
+import axios from "axios";
+import { setAxiosAuthToken } from "../../utils/Utils";
 
 export default function AddCard() {
-  const { handleSubmit } = useForm();
+  const { register, handleSubmit, watch, errors } = useForm();
   const classes = useStyles();
   const onSubmit = (data) => {
-    console.log(data);
+    console.log(data)
+    const expiry_date = data.year + '-' + data.month;
+    const { card_no, card_name } = data;
+    const cardData = {
+      card_no: card_no,
+      card_name: card_name,
+      expiry_date: expiry_date
+    }
+    setAxiosAuthToken()
+    axios.post('/api/addcard', cardData)
+      .then(response => {
+        console.log(response.data.metadata)
+      }).catch(err => {
+        console.log(err.response.data.metadata)
+      })
   }
 
   return (
@@ -15,16 +31,17 @@ export default function AddCard() {
 
       <div className={classes.cardBox}>
         <h2 className={classes.heading}>Add Your Card</h2>
-        <form>
+        <form onSubmit={handleSubmit(onSubmit)}>
           <ul className={classes.list}>
             <li>
               <label className={classes.label}>Card Holder Name</label>
               <input
                 className={classes.input}
-                id="name"
+                name="card_name"
                 type="text"
                 minLength="1"
                 maxLength="40"
+                ref={register}
                 required
               />
             </li>
@@ -32,13 +49,15 @@ export default function AddCard() {
               <label className={classes.label}>Card Number</label>
               <input
                 className={classes.input}
-                id="number"
-                type="text"
+                name="card_no"
+                type="number"
                 placeholder="**** **** **** ****"
-                minLength="12"
-                maxLength="19"
+                ref={register({ minLength: 16, maxLength: 16 })}
                 required
               />
+              {errors.card_no && (
+                <p className={classes.p}>Card Number must be 16 digit</p>
+              )}
             </li>
             <div className={classes.expiryDate}>
               <div className={classes.box}>
@@ -46,25 +65,29 @@ export default function AddCard() {
                 <input
                   className={classes.smallinput}
                   label="Expiry Month"
-                  id="expiryMonth"
+                  name="month"
                   type="text"
                   placeholder="MM"
-                  minLength="2"
-                  maxLength="2"
+                  ref={register({min:1,max:12})}
                   required
                 />
+                 {errors.month && (
+                <p className={classes.p}>month 1-12</p>
+              )}
               </div>
               <div className={classes.box}>
                 <label className={classes.label}>Expiry Year</label>
                 <input
                   className={classes.smallinput}
-                  id="expiryYear"
+                  name="year"
                   type="text"
                   placeholder="YY"
-                  minLength="2"
-                  maxLength="4"
+                  ref={register({min:21,minLength:2,maxLength:2})}
                   required
                 />
+                 {errors.year && (
+                <p className={classes.p}>not valid year</p>
+              )}
               </div>
             </div>
           </ul>
@@ -109,12 +132,12 @@ const useStyles = makeStyles((theme) => ({
     padding: '10px',
     margin: '10px 0'
   },
-  box:{
-    width:'50%',
+  box: {
+    width: '50%',
   },
   label: {
     color: '#343a40',
-    display:'block',
+    display: 'block',
   },
   heading: {
     color: '#343a40',
@@ -123,11 +146,11 @@ const useStyles = makeStyles((theme) => ({
     borderBottom: '1px solid #aeaeae',
     paddingBottom: '.75em',
   },
-  expiryDate:{
-    display:'flex',
-    flexDirection:'row',
-    justifyContent:'center',
-    margin:'10px 0'
+  expiryDate: {
+    display: 'flex',
+    flexDirection: 'row',
+    justifyContent: 'center',
+    margin: '10px 0'
   },
   smallinput: {
     boxSizing: 'border-box',
@@ -142,4 +165,7 @@ const useStyles = makeStyles((theme) => ({
     listStyle: 'none',
     padding: '0',
   },
+  p:{
+    color:'red'
+  }
 }))

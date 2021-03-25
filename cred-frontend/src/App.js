@@ -25,7 +25,6 @@ function App() {
   const login = (token,user) => {
     setToken(token);
     setUser(user);
-    setAxiosAuthToken(token);  
     localStorage.setItem("token", JSON.stringify(token));
     localStorage.setItem("userData",JSON.stringify(user));
   };

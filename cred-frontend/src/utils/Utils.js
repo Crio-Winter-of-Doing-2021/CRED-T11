@@ -2,7 +2,8 @@ import axios from "axios";
 import { toast } from "react-toastify";
 
 
-export const setAxiosAuthToken = token => {
+export const setAxiosAuthToken = () => {
+    const token=JSON.parse(localStorage.getItem("token"))
     if (typeof token !== "undefined" && token) {
         axios.defaults.headers.common["x-access-token"] = token;
     } else {
@@ -20,9 +21,3 @@ export const toastOnError = error => {
         toast.error(JSON.stringify(error));
     }
 };
-export const isEmpty=value=>{
-    return value===undefined ||
-    value===null ||
-    (typeof value === "object" && Object.keys(value).length===0)||
-    (typeof value === "string" && value.trim().length===0);
-}

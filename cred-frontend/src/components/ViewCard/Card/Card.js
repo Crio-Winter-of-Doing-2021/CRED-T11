@@ -3,24 +3,25 @@ import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
 import { Link } from "react-router-dom";
 
-export default function Card() {
+export default function Card(props) {
   const classes = useStyles();
+  const { cardName, cardNo, expiryDate, } = props;
 
   return (
     <React.Fragment>
       <div className={classes.cardStyle}>
         <div className={classes.card}>
           <div className={classes.cardNumber}>
-            <span className={classes.numberSection}>3466 3456 3456 5678</span>
+            <span className={classes.numberSection}>{cardNo.slice(0,4)+' '+cardNo.slice(4,8)+' '+cardNo.slice(8,12)+' '+cardNo.slice(12)}</span>
           </div>
           <div className={classes.cardInfo}>
             <div className={classes.cardName}>
               <span>Card Holder</span>
-              <p className={classes.p}>Ranjit Shah</p>
+              <p className={classes.p}>{cardName}</p>
             </div>
             <div className={classes.cardExpiry}>
               <span>Expires</span>
-              <p className={classes.p}>12/24</p>
+              <p className={classes.p}>{expiryDate.split("-").join("/")}</p>
             </div>
           </div>
         </div>
@@ -85,7 +86,7 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none'
   },
   link: {
-    textDecoration: 'none' 
+    textDecoration: 'none'
   },
   cardName: {},
   cardExpiry: {},
