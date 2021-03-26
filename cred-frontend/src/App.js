@@ -20,13 +20,13 @@ if (window.location.origin === "http://localhost:3000") {
 }
 function App() {
   const [token, setToken] = useState(null);
-  const [user,setUser] = useState({});
+  const [user, setUser] = useState({});
 
-  const login = (token,user) => {
+  const login = (token, user) => {
     setToken(token);
     setUser(user);
     localStorage.setItem("token", JSON.stringify(token));
-    localStorage.setItem("userData",JSON.stringify(user));
+    localStorage.setItem("userData", JSON.stringify(user));
   };
   const logout = () => {
     setToken(null);
@@ -40,13 +40,13 @@ function App() {
 
     if (storedData && userData && storedData) {
       // console.log(storedData.token);
-      login(storedData,userData);
-    } 
+      login(storedData, userData);
+    }
   }, []);
 
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: !!token,user:user, login: login, logut: logout }}
+      value={{ isLoggedIn: !!token, user: user, login: login, logut: logout }}
     >
       <Router>
         <Switch>

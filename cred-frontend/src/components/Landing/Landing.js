@@ -1,7 +1,7 @@
 import { Box, Button, Card, makeStyles } from "@material-ui/core";
 import React, { useState } from "react";
 import LogIn from "../Login/Login";
-import SignIn from "../Signup/Signup";
+import SignUp from "../Signup/Signup";
 
 export default function Landing() {
   const classes = useStyles();
@@ -10,6 +10,11 @@ export default function Landing() {
   const handleOption = (value) => {
     setisLoginOption(value); 
   }
+
+  const onSuccess = () =>{
+    setisLoginOption(true)
+  }
+
   return (
     <div className={classes.root}>
       <Box boxShadow={3} className={classes.box}>
@@ -24,11 +29,11 @@ export default function Landing() {
         <Button className={classes.button} onClick={()=>handleOption(true)} variant="outlined" color="secondary">
           Log in
         </Button>
-        <Button className={classes.button} onClick={()=>handleOption(false)} variant="outlined" color="primary">
+        <Button className={classes.button} onClick={()=>handleOption(false)}  variant="outlined" color="primary">
           Sign Up
         </Button>
       </div>
-      <div className={classes.regCard} >{isLoginOption ? <LogIn /> : <SignIn />}</div>
+      <div className={classes.regCard} >{isLoginOption ? <LogIn /> : <SignUp onSuccess={onSuccess} />}</div>
     </div>
   );
 }

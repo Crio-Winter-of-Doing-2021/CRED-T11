@@ -3,7 +3,7 @@ import { toast } from "react-toastify";
 
 
 export const setAxiosAuthToken = () => {
-    const token=JSON.parse(localStorage.getItem("token"))
+    const token = JSON.parse(localStorage.getItem("token"))
     if (typeof token !== "undefined" && token) {
         axios.defaults.headers.common["x-access-token"] = token;
     } else {

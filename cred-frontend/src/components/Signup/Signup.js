@@ -1,37 +1,35 @@
-import React,{useContext,useState} from 'react';
+import React, { useContext, useState } from 'react';
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { Redirect } from 'react-router-dom';
-import {AuthContext} from '../../context';
+import { AuthContext } from '../../context';
 import axios from 'axios';
 
-export default function SignUp() {
+export default function SignUp(props) {
   const classes = useStyles();
-  const { handleSubmit, control } = useForm();
-  const [status,setStatus]=useState();
+  const { handleSubmit, register } = useForm();
+  const [status, setStatus] = useState();
   const authContext = useContext(AuthContext);
 
   const onSubmit = async (data) => {
-    try{
-    const res =await axios.post('api/auth/signup',data)
-    setStatus(res.status);
-    console.log(res)
-    return <Redirect to='/dashboard'/>
-    
-    }catch(err){
-      console.log({err})
+    try {
+      const res = await axios.post('api/auth/signup', data)
+      setStatus(res.status);
+      console.log(res)
+      props.onSuccess();
+
+    } catch (err) {
+      console.log({ err })
       console.log(err.response.data.metadata.message)
     }
   }
-  if(authContext.isLoggedIn){
+  if (authContext.isLoggedIn) {
     return <Redirect to='/dashboard' />
   }
 
@@ -45,30 +43,34 @@ export default function SignUp() {
           JOIN CRED
         </Typography>
         <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <Controller as={TextField} variant="outlined"
+          <TextField variant="outlined"
             margin="normal"
             required
             id="username"
             label="Username"
             name="username"
+            inputRef={register}
             fullWidth
-            autoFocus control={control} defaultValue="" />
-          <Controller as={TextField} variant="outlined"
+            defaultValue="" />
+          <TextField variant="outlined"
             margin="normal"
             required
             id="email"
             label="Email"
             name="email"
+            inputRef={register}
             fullWidth
-            autoFocus control={control} defaultValue="" />
-          <Controller as={TextField} variant="outlined"
+            defaultValue="" />
+          <TextField variant="outlined"
             margin="normal"
+            type="password"
             required
             id="password"
             label="Password"
             name="password"
             fullWidth
-            control={control} defaultValue="" />
+            inputRef={register}
+            defaultValue="" />
           <Button
             type="submit"
             fullWidth

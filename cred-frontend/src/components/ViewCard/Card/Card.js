@@ -1,18 +1,40 @@
-import React from "react";
+import React, { useState, useRef } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import Button from "@material-ui/core/Button";
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogContentText from '@material-ui/core/DialogContentText';
+import DialogTitle from '@material-ui/core/DialogTitle';
 import { Link } from "react-router-dom";
+import TextField from "@material-ui/core/TextField";
+import { useForm } from "react-hook-form";
+import { MenuItem } from "@material-ui/core";
 
 export default function Card(props) {
   const classes = useStyles();
-  const { cardName, cardNo, expiryDate, } = props;
+  const ref = useRef();
+  const { onSubmit, register } = useForm();
+  const { cardName, cardNo, expiryDate } = props;
+  const [open, setOpen] = useState(false)
+
+  const handleClickOpen = () => {
+    setOpen(true)
+    
+  }
+
+  const handleClose = () => {
+    setOpen(false)
+  }
+
+
 
   return (
-    <React.Fragment>
-      <div className={classes.cardStyle}>
+    <div>
+      <div className={classes.cardStyle} >
         <div className={classes.card}>
           <div className={classes.cardNumber}>
-            <span className={classes.numberSection}>{cardNo.slice(0,4)+' '+cardNo.slice(4,8)+' '+cardNo.slice(8,12)+' '+cardNo.slice(12)}</span>
+            <span className={classes.numberSection}>{cardNo.slice(0, 4) + ' ' + cardNo.slice(4, 8) + ' ' + cardNo.slice(8, 12) + ' ' + cardNo.slice(12)}</span>
           </div>
           <div className={classes.cardInfo}>
             <div className={classes.cardName}>
@@ -25,18 +47,56 @@ export default function Card(props) {
             </div>
           </div>
         </div>
-        <Link className={classes.link} to="/statement">
-          <Button className={classes.Button} variant="outlined" color="primary">
-            view statement
+        <Button className={classes.Button}  variant="outlined" onClick={handleClickOpen} color="primary">
+          view statement
           </Button>
-        </Link>
+
+        <Dialog open={open} ref={ref} onClose={handleClose} aria-labelledby="form-dialog-title">
+          <DialogTitle id="form-dialog-title">Select the YY/MM</DialogTitle>
+          <DialogContent>
+            <DialogContentText>
+              Select the Year/Month for showing the statements
+          </DialogContentText>
+          
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              id="year"
+              label="Year"
+              name="year"
+              inputRef={register}
+              fullWidth
+              defaultValue=""
+            />
+            <TextField
+              variant="outlined"
+              margin="normal"
+              required
+              id="month"
+              label="Month"
+              name="month"
+              inputRef={register}
+              fullWidth
+              defaultValue=""
+            />
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+          </Button>
+            <Button onClick={handleClose} color="primary">
+              Select
+          </Button>
+          </DialogActions>
+        </Dialog>
         <Link className={classes.link} to="/pay">
           <Button variant="outlined" color="primary">
-            pay
+            Pay
           </Button>
         </Link>
       </div>
-    </React.Fragment>
+    </div>
   );
 }
 

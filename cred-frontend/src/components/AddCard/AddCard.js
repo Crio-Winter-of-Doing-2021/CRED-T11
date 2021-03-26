@@ -4,10 +4,12 @@ import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { setAxiosAuthToken } from "../../utils/Utils";
+import {useHistory} from 'react-router-dom';
 
 export default function AddCard() {
-  const { register, handleSubmit, watch, errors } = useForm();
+  const { register, handleSubmit, errors } = useForm();
   const classes = useStyles();
+  const history = useHistory();
   const onSubmit = (data) => {
     console.log(data)
     const expiry_date = data.year + '-' + data.month;
@@ -21,6 +23,7 @@ export default function AddCard() {
     axios.post('/api/addcard', cardData)
       .then(response => {
         console.log(response.data.metadata)
+        history.push('/viewCards')
       }).catch(err => {
         console.log(err.response.data.metadata)
       })
@@ -68,12 +71,12 @@ export default function AddCard() {
                   name="month"
                   type="text"
                   placeholder="MM"
-                  ref={register({min:1,max:12})}
+                  ref={register({ min: 1, max: 12 })}
                   required
                 />
-                 {errors.month && (
-                <p className={classes.p}>month 1-12</p>
-              )}
+                {errors.month && (
+                  <p className={classes.p}>month 1-12</p>
+                )}
               </div>
               <div className={classes.box}>
                 <label className={classes.label}>Expiry Year</label>
@@ -82,12 +85,12 @@ export default function AddCard() {
                   name="year"
                   type="text"
                   placeholder="YY"
-                  ref={register({min:21,minLength:2,maxLength:2})}
+                  ref={register({ min: 21, minLength: 2, maxLength: 2 })}
                   required
                 />
-                 {errors.year && (
-                <p className={classes.p}>not valid year</p>
-              )}
+                {errors.year && (
+                  <p className={classes.p}>not valid year</p>
+                )}
               </div>
             </div>
           </ul>
@@ -165,7 +168,7 @@ const useStyles = makeStyles((theme) => ({
     listStyle: 'none',
     padding: '0',
   },
-  p:{
-    color:'red'
+  p: {
+    color: 'red'
   }
 }))

@@ -6,7 +6,7 @@ import TextField from "@material-ui/core/TextField";
 import Typography from "@material-ui/core/Typography";
 import { makeStyles } from "@material-ui/core/styles";
 import Container from "@material-ui/core/Container";
-import { useForm, Controller } from "react-hook-form";
+import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context";
 import { Redirect } from "react-router-dom";
 import axios from "axios";
@@ -15,18 +15,22 @@ export default function LogIn() {
   const authContext = useContext(AuthContext);
   const [redirect, setredirect] = useState("/dashboard");
   const classes = useStyles();
-  const { handleSubmit, control, errors } = useForm();
+  const { handleSubmit, register, errors } = useForm();
 
   const onSubmit = async (data) => {
     try {
       const res = await axios.post("api/auth/signin", data);
       console.log(res)
+      const {email,username}=res.data.data.user;
       const userResponse = {
         token: res.data.data.accessToken,
-        user: res.data.data.user,
+        user:{
+          email:email,
+          username:username,
+        },
       };
 
-      authContext.login(userResponse.token,userResponse.user);
+      authContext.login(userResponse.token, userResponse.user);
     } catch (err) {
       console.log(err);
     }
@@ -50,29 +54,28 @@ export default function LogIn() {
               WELCOME TO CRED
             </Typography>
             <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-              <Controller
-                as={TextField}
+              <TextField
                 variant="outlined"
                 margin="normal"
                 required
+                type="username"
                 id="username"
                 label="Username"
                 name="username"
+                inputRef={register}
                 fullWidth
-                autoFocus
-                control={control}
                 defaultValue=""
               />
-              <Controller
-                as={TextField}
+              <TextField
                 variant="outlined"
                 margin="normal"
                 required
+                type="password"
                 id="password"
                 label="Password"
                 name="password"
+                inputRef={register}
                 fullWidth
-                control={control}
                 defaultValue=""
               />
               {errors.password && <span>This field is required</span>}
