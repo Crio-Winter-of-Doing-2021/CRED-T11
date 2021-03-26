@@ -21,7 +21,7 @@ export default function ViewCard() {
         <div className={classes.container}>
             {
                 cards?.map((card,index) => {
-                    return <Card key={card.id} cardName={card.card_name} cardNo={card.card_no} expiryDate={card.expiry_date} />
+                    return <Card key={card.id} cardId={card.id} cardName={card.card_name} cardNo={card.card_no} expiryDate={card.expiry_date} />
                 })
             }
         </div>

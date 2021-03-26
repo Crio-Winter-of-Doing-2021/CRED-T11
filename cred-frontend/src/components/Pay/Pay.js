@@ -1,25 +1,25 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { useForm, Controller } from "react-hook-form";
+import { useParams } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import { setAxiosAuthToken } from "../../utils/Utils";
 import axios from "axios";
 import { makeStyles, Button } from "@material-ui/core";
 
 export default function Pay() {
   const classes = useStyles();
-  const { handleSubmit, control, errors } = useForm();
+  const { handleSubmit, register, errors } = useForm();
+  let { cardId } = useParams();
 
   const onSubmit = async (data) => {
-    // try {
-    //   const res = await axios.post("api/auth/signin", data);
-    //   const userResponse = {
-    //     token: res.data.data.accessToken,
-    //   };
-
-    //   authContext.login(userResponse.token);
-    // } catch (err) {
-    //   console.log(err);
-    // }
-    // // axios.post('api/auth/login',data)
+    axios
+      .post(`api/card/${cardId}/pay`, data.amount )
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
     console.log(data);
   };
   return (
@@ -31,8 +31,10 @@ export default function Pay() {
           label="amount"
           name="amount"
           variant="outlined"
+          type="number"
           margin="normal"
           type="number"
+          inputRef={register}
           required
         />
         <Button type="submit" variant="contained" color="primary">
@@ -45,9 +47,9 @@ export default function Pay() {
 
 const useStyles = makeStyles((theme) => ({
   form: {
-    display: 'flex',
-    flexDirection: 'column',
-    margin: 10
+    display: "flex",
+    flexDirection: "column",
+    margin: 10,
   },
   title: {
     textAlign: "center",

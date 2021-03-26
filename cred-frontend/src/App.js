@@ -54,8 +54,8 @@ function App() {
           <Route exact path="/dashboard" component={DashBoard} />
           <Route exact path="/addcard" component={AddCard} />
           <Route exact path="/viewCards" component={ViewCard} />
-          <Route exact path="/statement" component={Statement} />
-          <Route exact path="/pay" component={Pay} />
+          <Route exact path="/statement/:cardId/:year/:month" component={Statement} />
+          <Route exact path="/pay/:cardId" component={Pay} />
         </Switch>
       </Router>
     </AuthContext.Provider>
