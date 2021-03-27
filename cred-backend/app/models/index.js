@@ -21,11 +21,14 @@ db.sequelize = sequelize;
 
 db.user = require("./user.model.js")(sequelize, Sequelize);
 db.card = require("./card.model.js")(sequelize, Sequelize);
-db.transaction=require("./transaction.model.js")(sequelize,Sequelize);
+db.transaction = require("./transaction.model.js")(sequelize, Sequelize);
+db.amountpaid = require("./amountpaid.model.js")(sequelize, Sequelize);
 db.user.hasMany(db.card);
 db.card.belongsTo(db.user);
 db.card.hasMany(db.transaction);
 db.transaction.belongsTo(db.card);
+db.card.hasMany(db.amountpaid);
+db.amountpaid.belongsTo(db.card);
 
 
 module.exports = db;

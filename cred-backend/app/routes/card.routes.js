@@ -34,7 +34,7 @@ module.exports = function (app) {
   )
 
   app.post(
-    "/api/card/:id/pay",
+    "/api/card/:id/pay/:year/:month",
     [authJwt.verifyToken,validateCard.checkCardById,validateCard.checkCardByUserId],
     controller.amountPay
   )
