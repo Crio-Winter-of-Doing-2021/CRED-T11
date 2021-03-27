@@ -12,8 +12,10 @@ export default function Pay() {
   let { cardId } = useParams();
 
   const onSubmit = async (data) => {
+    // console.log(typeof(data))
+    setAxiosAuthToken();
     axios
-      .post(`api/card/${cardId}/pay`, data.amount )
+      .post(`api/card/${cardId}/pay`, data )
       .then((response) => {
         console.log(response.data);
       })

@@ -10,7 +10,7 @@ module.exports = (sequelize, Sequelize) => {
       type: Sequelize.STRING,
     },
     amount_paid: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.STRING,
     },
   });
 
