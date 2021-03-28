@@ -28,7 +28,6 @@ export default function DashBoard() {
               {user.username}
               <br />
               {user.email}
-              {/* PayBill for month -2000 */}
             </p>
           </div>
         </div>

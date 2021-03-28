@@ -1,17 +1,18 @@
-import Button from "@material-ui/core/Button";
 import React from "react";
+import Button from "@material-ui/core/Button";
 import { useForm } from "react-hook-form";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { setAxiosAuthToken } from "../../utils/Utils";
 import {useHistory} from 'react-router-dom';
+import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.css';
 
 export default function AddCard() {
   const { register, handleSubmit, errors } = useForm();
   const classes = useStyles();
   const history = useHistory();
   const onSubmit = (data) => {
-    console.log(data)
     const expiry_date = data.year + '-' + data.month;
     const { card_no, card_name } = data;
     const cardData = {
@@ -22,7 +23,7 @@ export default function AddCard() {
     setAxiosAuthToken()
     axios.post('/api/addcard', cardData)
       .then(response => {
-        console.log(response.data.metadata)
+        alertify.success('Card Added Succesfully');       
         history.push('/viewCards')
       }).catch(err => {
         console.log(err.response.data.metadata)
@@ -31,7 +32,6 @@ export default function AddCard() {
 
   return (
     <div className={classes.container}>
-
       <div className={classes.cardBox}>
         <h2 className={classes.heading}>Add Your Card</h2>
         <form onSubmit={handleSubmit(onSubmit)}>

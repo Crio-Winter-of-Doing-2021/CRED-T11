@@ -12,60 +12,77 @@ import Paper from "@material-ui/core/Paper";
 import axios from "axios";
 import Typography from "@material-ui/core/Typography";
 import { setAxiosAuthToken } from "../../utils/Utils";
+import EmptyPage from "../EmptyPage/EmptyPage";
 
 export default function Statement() {
   const classes = useStyles();
   const [statements, setStatements] = useState([]);
+  const [outStandingAmount, setOutStandingAmount] = useState(0);
   let { cardId, year, month } = useParams();
 
-  console.log(cardId);
+  const sumPropertyValue = (items, prop) => items.reduce((a, b) => +a + +b[prop], 0);
+  
   useEffect(() => {
+    setAxiosAuthToken();
     axios
-      .get(
-        `api/cards/${cardId}/statements/${year}/${month}`,
-        setAxiosAuthToken()
-      )
+      .get(`api/cards/${cardId}/statements/${year}/${month}`)
       .then((response) => {
         console.log(response.data.data);
-        setStatements(response.data.data);
+        setStatements(response.data.data.data);
+        setOutStandingAmount(sumPropertyValue(response.data.data.data,'amount')- +response.data.data.amount_paid);
       })
       .catch((error) => {
         console.log(error);
       });
-  }, []);
+    }, []);
+
+
 
   return (
     <div>
       <div className={classes.title}>
         <h3>My statement</h3>
-        <Link className={classes.link} to={`/pay/${cardId}`}>
-          <Button variant="outlined" color="primary">
-            pay
-          </Button>
-        </Link>
+        ₹ {outStandingAmount}
+        {statements?.length ? (
+          <Link className={classes.link} to={`/pay/${cardId}/${outStandingAmount}/${year}/${month}`}>
+            <Button variant="outlined" color="primary">
+              pay
+            </Button>
+          </Link>
+        ) : (
+          ""
+        )}
       </div>
-      {statements?.map((statement) => {
-         return <Timeline key={statement.id} align="left">
-          <TimelineItem className={classes.Timeline}>
-            <TimelineOppositeContent
-              className={classes.TimelineOppositeContent}
-            />
-            <TimelineSeparator>
-              <TimelineDot variant="outlined" />
-              <TimelineConnector />
-            </TimelineSeparator>
-            <TimelineContent className={classes.TimelineContent}>
-              <Paper elevation={3} className={classes.paper}>
-                <Typography variant="h6" component="h1">
-                  ₹ {statement.amount}
-                </Typography>
-                <Typography>vendor - {statement.vendor} ({statement.transaction_type})</Typography>
-                <Typography>category - {statement.category}</Typography>
-              </Paper>
-            </TimelineContent>
-          </TimelineItem>
-        </Timeline>;
-      })}
+      {statements?.length ? (
+        statements?.map((statement) => {
+          return (
+            <Timeline key={statement.id} align="left">
+              <TimelineItem className={classes.Timeline}>
+                <TimelineOppositeContent
+                  className={classes.TimelineOppositeContent}
+                />
+                <TimelineSeparator>
+                  <TimelineDot variant="outlined" />
+                  <TimelineConnector />
+                </TimelineSeparator>
+                <TimelineContent className={classes.TimelineContent}>
+                  <Paper elevation={3} className={classes.paper}>
+                    <Typography variant="h6" component="h1">
+                      ₹ {statement.amount}
+                    </Typography>
+                    <Typography>
+                      vendor - {statement.vendor} ({statement.transaction_type})
+                    </Typography>
+                    <Typography>category - {statement.category}</Typography>
+                  </Paper>
+                </TimelineContent>
+              </TimelineItem>
+            </Timeline>
+          );
+        })
+      ) : (
+        <EmptyPage text="you have no statements" />
+      )}
     </div>
   );
 }

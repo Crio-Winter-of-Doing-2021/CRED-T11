@@ -59,6 +59,7 @@ export default function Card(props) {
             </div>
           </div>
         </div>
+        <div className={classes.buttonGroup} >
         <Button
           className={classes.Button}
           variant="outlined"
@@ -67,6 +68,8 @@ export default function Card(props) {
         >
           view statement
         </Button>
+
+        </div>
 
         <Dialog
           open={open}
@@ -119,11 +122,6 @@ export default function Card(props) {
             </DialogActions>
           </form>
         </Dialog>
-        <Link className={classes.link} to={`/pay/${cardId}`}>
-          <Button variant="outlined" color="primary">
-            Pay
-          </Button>
-        </Link>
       </div>
     </div>
   );
@@ -136,7 +134,7 @@ const useStyles = makeStyles((theme) => ({
     height: "200px",
     width: "320px",
     flex: "0 0 auto",
-    padding: "2em 2em",
+    margin: "40px 10px",
   },
   card: {
     height: "100%",
@@ -150,10 +148,10 @@ const useStyles = makeStyles((theme) => ({
     top: "75px",
     display: "flex",
     justifyContent: "space-between",
-    fontSize: "1.2em",
+    fontSize: "18px",
     wordSpacing: "8px",
     letterSpacing: "2px",
-    padding: "0 1em",
+    padding: "0 16px",
   },
   p: {
     marginTop: "8px",
@@ -168,7 +166,7 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
     position: "relative",
     top: "110px",
-    padding: "0 1em",
+    padding: "0 15px",
   },
   Button: {
     margin: "10px 10px 10px 0px",
@@ -182,6 +180,9 @@ const useStyles = makeStyles((theme) => ({
   },
   textField: {
     margin: 10,
+  },
+  buttonGroup: {
+    direction: 'rtl',
   },
   cardName: {},
   cardExpiry: {},
