@@ -1,6 +1,6 @@
 import React from "react";
 import TextField from "@material-ui/core/TextField";
-import { useParams } from "react-router-dom";
+import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { setAxiosAuthToken } from "../../utils/Utils";
 import Dialog from '@material-ui/core/Dialog';
@@ -17,6 +17,7 @@ export default function Pay() {
   let { cardId, year, month, amount } = useParams();
   const [open, setOpen] = React.useState(false);
 
+  let history = useHistory();
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -31,12 +32,11 @@ export default function Pay() {
     axios
       .post(`api/card/${cardId}/pay/${year}/${month}`, data )
       .then((response) => {
-        console.log(response.data);
+        history.push('/success')
       })
       .catch((error) => {
         console.log(error);
       });
-    console.log(data);
   };
   return (
     <div>

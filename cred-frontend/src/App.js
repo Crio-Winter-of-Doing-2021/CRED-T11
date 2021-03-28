@@ -11,6 +11,7 @@ import AddCard from "./components/AddCard/AddCard";
 import { setAxiosAuthToken } from "./utils/Utils";
 import Statement from "./components/Statement/Statement";
 import Pay from "./components/Pay/Pay";
+import SuccessPage from "./components/SuccessPage/SuccessPage";
 
 
 if (window.location.origin === "http://localhost:3000") {
@@ -56,6 +57,7 @@ function App() {
           <Route exact path="/viewCards" component={ViewCard} />
           <Route exact path="/statement/:cardId/:year/:month" component={Statement} />
           <Route exact path="/pay/:cardId/:amount/:year/:month" component={Pay} />
+          <Route exact path="/success" component={SuccessPage} />
         </Switch>
       </Router>
     </AuthContext.Provider>

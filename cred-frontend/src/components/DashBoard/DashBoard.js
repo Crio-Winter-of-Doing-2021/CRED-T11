@@ -49,12 +49,6 @@ export default function DashBoard() {
             VIEW CARDS
           </Button>
         </div>
-        <BottomNavigation
-          showLabels
-          value
-        >
-          <BottomNavigationAction label="Favorites" icon={<FavoriteIcon />} />
-        </BottomNavigation>
       </div>
     )
   );
@@ -73,7 +67,7 @@ const useStyles = makeStyles((theme) => ({
   userData: {
     display: "flex",
     alignItems: "center",
-    margin: 10,
+    padding: 10,
     lineHeight: 1.4,
   },
   title: {
