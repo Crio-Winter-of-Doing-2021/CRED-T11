@@ -10,12 +10,7 @@ exports.addCard = async (req, res) => {
       expiry_date: req.body.expiry_date,
       card_name: req.body.card_name,
       userId: req.userId,
-    })
-    // console.log(card)
-    await Amountpaid.create({
-      cardId: card.dataValues.id,
-      amount_paid:0
-    })
+    });
     return sendJSONResponse(res, 201, "card added successfully!");
   } catch (err) {
     return sendBadRequest(res, 500, `${err.message}`);
@@ -28,9 +23,8 @@ exports.viewCard = async (req, res) => {
       where: {
         userId: req.userId,
       },
-    })
-    return sendJSONResponse(res, 201, "All cards of user", card)
-
+    });
+    return sendJSONResponse(res, 201, "All cards of user", card);
   } catch (err) {
     return sendBadRequest(res, 500, `${err.message}`);
   }
@@ -46,26 +40,24 @@ exports.statementCard = async (req, res) => {
       transaction_date: year + "-" + month,
       category: req.body.category,
       cardId: id,
-    })
-    const amountpaid = await Amountpaid.findOne({
+    });
+
+    const card = await Card.findOne({
       where: {
-        cardId: id,
-        date: year + "-" + month,
-      }
-    })
-    console.log(amountpaid)
-    if (!amountpaid) {
-      await Amountpaid.update(
+        id: id,
+      },
+    });
+    if (card) {
+      await card.update(
         {
-          date: year + "-" + month,
+          outstanding_amount: +card.outstanding_amount + +req.body.amount,
         },
         {
           where: {
             cardId: id,
-          }
+          },
         }
-
-      )
+      );
     }
     return sendJSONResponse(res, 200, "transaction added successfully");
   } catch (err) {
@@ -82,16 +74,9 @@ exports.viewStatements = async (req, res) => {
         cardId: id,
         transaction_date: year + "-" + month,
       },
-    })
-    const amountpaid = await Amountpaid.findOne({
-      where: {
-        cardId: id,
-        date: year + "-" + month,
-      }
-    })
-    const amount_paid=amountpaid?.dataValues.amount_paid || 0;
+    });
 
-    return sendJSONResponse(res, 200, "Statement details", {data,amount_paid});
+    return sendJSONResponse(res, 200, "Statement details", data);
   } catch (err) {
     return sendBadRequest(res, 500, `${err.message}`);
   }
@@ -99,25 +84,24 @@ exports.viewStatements = async (req, res) => {
 
 exports.amountPay = async (req, res) => {
   try {
-    const { id, year, month } = req.params;
-    const card = await Amountpaid.findOne({
+    const { id } = req.params;
+    const card = await Card.findOne({
       where: {
-        cardId: id,
-        date: year + "-" + month,
+        id: id,
       },
-    })
-    if(card){
-      await Amountpaid.update(
+    });
+    if (card) {
+      await card.update(
         {
-          amount_paid: + req.body.amount + + card.amount_paid,
+          outstanding_amount: +card.outstanding_amount - +req.body.amount,
         },
         {
           where: {
-            cardId: id,
+            id: id,
           },
         }
-      )
-    return sendJSONResponse(res, 200, "Amount Paid successfully");
+      );
+      return sendJSONResponse(res, 200, "Amount Paid successfully");
     }
   } catch (err) {
     return sendBadRequest(res, 500, `${err.message}`);

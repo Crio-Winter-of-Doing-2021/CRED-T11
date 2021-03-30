@@ -9,7 +9,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import axios from "axios";
-import { makeStyles, Button, Card } from "@material-ui/core";
+import { makeStyles, Button, Card, Box } from "@material-ui/core";
 
 export default function Pay() {
   const classes = useStyles();
@@ -40,14 +40,14 @@ export default function Pay() {
   };
   return (
     <div>
-      <div className={classes.payData} >
+      <Box className={classes.payData} boxShadow={3}>
         <h3>Payment Info</h3>
         <p>Month/Year - {month+'/'+year} </p>
         <p>Out Standing Amount - ₹ {amount}</p>
-        <p></p>
-      </div>
+      </Box>
       {/* <h3 className={classes.title}>Amount Pay</h3> */}
       <form className={classes.form}>
+        <span>Select amount</span>
         <TextField
           id="amount"
           label="amount"
@@ -100,6 +100,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 40,
   },
   payData: {
-    margin: 10
+    margin: "30px 10px",
+    padding: 10,
   },
 }));

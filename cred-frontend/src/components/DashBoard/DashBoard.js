@@ -1,8 +1,17 @@
-import { Avatar, BottomNavigation, BottomNavigationAction, Button, makeStyles } from "@material-ui/core";
-import FavoriteIcon from '@material-ui/icons/Favorite';
+import {
+  Avatar,
+  BottomNavigation,
+  BottomNavigationAction,
+  Button,
+  Card,
+  makeStyles,
+  Box,
+} from "@material-ui/core";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import React, { useContext } from "react";
 import { AuthContext } from "../../context";
-import { Redirect,useHistory } from 'react-router-dom';
+import { Redirect, useHistory } from "react-router-dom";
+import BottomBar from "../BottomBar/BottomBar";
 
 export default function DashBoard() {
   const authContext = useContext(AuthContext);
@@ -10,14 +19,14 @@ export default function DashBoard() {
   const history = useHistory();
   const user = authContext.user;
   const handleOption = (type) => {
-    console.log(type)
+    console.log(type);
     switch (type) {
-      case 'ADD':
-        return history.push('/addcard');
-      case 'VIEW':
-        return history.push('/viewCards');
+      case "ADD":
+        return history.push("/addcard");
+      case "VIEW":
+        return history.push("/viewCards");
     }
-  }
+  };
   return (
     true && (
       <div className={classes.root}>
@@ -32,23 +41,35 @@ export default function DashBoard() {
           </div>
         </div>
         <div className={classes.buttons}>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            color="secondary"
-            onClick={() => { handleOption('ADD') }}
-          >
-            ADD CARD
-          </Button>
-          <Button
-            className={classes.button}
-            variant="outlined"
-            color="secondary"
-            onClick={() => { handleOption('VIEW') }}
-          >
-            VIEW CARDS
-          </Button>
+          <Box className={classes.box} boxShadow={5}>
+            <h3>Referral offers</h3>
+            <p>
+              Cred Referral Offer - Install App & Get 2% Upto Rs.1000 Cashback
+              on First Credit Card Bill Payment. Refer Friend & Earn Upto
+              Rs.1000 cashback per referral. Earn the 10 cred gems by inviting
+              people to cred.
+            </p>
+          </Box>
+          <Box className={classes.box} boxShadow={5}>
+            <h3>Program offers</h3>
+            <p>
+              Cred Referral Offer - Install App & Get 2% Upto Rs.1000 Cashback
+              on First Credit Card Bill Payment. Refer Friend & Earn Upto
+              Rs.1000 cashback per referral. Earn the 10 cred gems by inviting
+              people to cred.
+            </p>
+          </Box>
+          <Box className={classes.box} boxShadow={5}>
+            <h3>Point offers</h3>
+            <p>
+              Cred Referral Offer - Install App & Get 2% Upto Rs.1000 Cashback
+              on First Credit Card Bill Payment. Refer Friend & Earn Upto
+              Rs.1000 cashback per referral. Earn the 10 cred gems by inviting
+              people to cred.
+            </p>
+          </Box>
         </div>
+        <BottomBar />
       </div>
     )
   );
@@ -56,7 +77,7 @@ export default function DashBoard() {
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    height: "70vh",
+    height: "80vh",
   },
   avatar: {
     margin: theme.spacing(1),
@@ -76,12 +97,16 @@ const useStyles = makeStyles((theme) => ({
   buttons: {
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
     height: "100%",
-    justifyContent: "center",
+    margin: 10,
   },
   button: {
     width: "50%",
     margin: "20px 10px",
+  },
+  box: {
+    margin: "10px 0px",
+    padding: 10,
+    backgroundColor: "antiquewhite",
   },
 }));

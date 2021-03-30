@@ -9,6 +9,9 @@ module.exports = (sequelize, Sequelize) => {
     card_name: {
       type: Sequelize.STRING,
     },
+    outstanding_amount: {
+      type: Sequelize.STRING,
+    },
   });
 
   return Card;

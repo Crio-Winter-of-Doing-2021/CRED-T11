@@ -18,10 +18,12 @@ export default function Statement() {
   const classes = useStyles();
   const [statements, setStatements] = useState([]);
   const [outStandingAmount, setOutStandingAmount] = useState(0);
+  const [totalAmount, setTotalAmount] = useState(0);
   let { cardId, year, month } = useParams();
 
-  const sumPropertyValue = (items, prop) => items.reduce((a, b) => +a + +b[prop], 0);
-  
+  const sumPropertyValue = (items, prop) =>
+    items.reduce((a, b) => +a + +b[prop], 0);
+
   useEffect(() => {
     setAxiosAuthToken();
     axios
@@ -29,22 +31,27 @@ export default function Statement() {
       .then((response) => {
         console.log(response.data.data);
         setStatements(response.data.data.data);
-        setOutStandingAmount(sumPropertyValue(response.data.data.data,'amount')- +response.data.data.amount_paid);
+        setTotalAmount(sumPropertyValue(response.data.data.data, "amount"));
+        setOutStandingAmount(
+          sumPropertyValue(response.data.data.data, "amount") -
+            +response.data.data.amount_paid
+        );
       })
       .catch((error) => {
         console.log(error);
       });
-    }, []);
-
-
+  }, []);
 
   return (
     <div>
       <div className={classes.title}>
         <h3>My statement</h3>
-        ₹ {outStandingAmount}
+
         {statements?.length ? (
-          <Link className={classes.link} to={`/pay/${cardId}/${outStandingAmount}/${year}/${month}`}>
+          <Link
+            className={classes.link}
+            to={`/pay/${cardId}/${outStandingAmount}/${year}/${month}`}
+          >
             <Button variant="outlined" color="primary">
               pay
             </Button>
@@ -53,6 +60,14 @@ export default function Statement() {
           ""
         )}
       </div>
+      <div className={classes.month}>
+        <p>
+          Total transaction amount for {month}/{year}
+          <br />
+          (₹ {totalAmount}){" "}
+        </p>
+      </div>
+
       {statements?.length ? (
         statements?.map((statement) => {
           return (
@@ -107,5 +122,8 @@ const useStyles = makeStyles((theme) => ({
   },
   link: {
     textDecoration: "none",
+  },
+  month: {
+    textAlign: 'center'
   },
 }));
