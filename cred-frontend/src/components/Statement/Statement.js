@@ -17,7 +17,6 @@ import EmptyPage from "../EmptyPage/EmptyPage";
 export default function Statement() {
   const classes = useStyles();
   const [statements, setStatements] = useState([]);
-  const [outStandingAmount, setOutStandingAmount] = useState(0);
   const [totalAmount, setTotalAmount] = useState(0);
   let { cardId, year, month } = useParams();
 
@@ -30,12 +29,8 @@ export default function Statement() {
       .get(`api/cards/${cardId}/statements/${year}/${month}`)
       .then((response) => {
         console.log(response.data.data);
-        setStatements(response.data.data.data);
-        setTotalAmount(sumPropertyValue(response.data.data.data, "amount"));
-        setOutStandingAmount(
-          sumPropertyValue(response.data.data.data, "amount") -
-            +response.data.data.amount_paid
-        );
+        setStatements(response.data.data);
+        setTotalAmount(sumPropertyValue(response.data.data, "amount"));
       })
       .catch((error) => {
         console.log(error);
@@ -50,7 +45,7 @@ export default function Statement() {
         {statements?.length ? (
           <Link
             className={classes.link}
-            to={`/pay/${cardId}/${outStandingAmount}/${year}/${month}`}
+            to={`/pay/${cardId}`}
           >
             <Button variant="outlined" color="primary">
               pay

@@ -30,6 +30,21 @@ exports.viewCard = async (req, res) => {
   }
 };
 
+exports.viewCardById = async (req, res) => {
+  try {
+    const card = await Card.findOne({
+      where: {
+        userId: req.userId,
+        id: req.params.id
+      },
+    });
+    data = card || 'you are not authorized to view this card';
+    return sendJSONResponse(res, 201, "Card by ID", data);
+  } catch (err) {
+    return sendBadRequest(res, 500, `${err.message}`);
+  }
+};
+
 exports.statementCard = async (req, res) => {
   try {
     const { id, year, month } = req.params;

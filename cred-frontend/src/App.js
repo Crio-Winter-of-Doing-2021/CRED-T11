@@ -56,7 +56,7 @@ function App() {
           <Route exact path="/addcard" component={AddCard} />
           <Route exact path="/viewCards" component={ViewCard} />
           <Route exact path="/statement/:cardId/:year/:month" component={Statement} />
-          <Route exact path="/pay/:cardId/:amount/:year/:month" component={Pay} />
+          <Route exact path="/pay/:cardId" component={Pay} />
           <Route exact path="/success" component={SuccessPage} />
         </Switch>
       </Router>

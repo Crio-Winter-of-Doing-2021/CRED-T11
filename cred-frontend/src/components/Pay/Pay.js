@@ -1,21 +1,22 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import TextField from "@material-ui/core/TextField";
 import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { setAxiosAuthToken } from "../../utils/Utils";
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogContentText from '@material-ui/core/DialogContentText';
-import DialogTitle from '@material-ui/core/DialogTitle';
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogContentText from "@material-ui/core/DialogContentText";
+import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
 import { makeStyles, Button, Card, Box } from "@material-ui/core";
 
 export default function Pay() {
   const classes = useStyles();
   const { handleSubmit, register, errors } = useForm();
-  let { cardId, year, month, amount } = useParams();
-  const [open, setOpen] = React.useState(false);
+  let { cardId } = useParams();
+  const [open, setOpen] = useState(false);
+  const [card, setCard] = useState({});
 
   let history = useHistory();
   const handleClickOpen = () => {
@@ -25,45 +26,65 @@ export default function Pay() {
   const handleClose = () => {
     setOpen(false);
   };
-  
+
   const onSubmit = async (data) => {
     setOpen(false);
     setAxiosAuthToken();
     axios
-      .post(`api/card/${cardId}/pay/${year}/${month}`, data )
+      .post(`api/card/${cardId}/pay`, data)
       .then((response) => {
-        history.push('/success')
+        history.push("/success");
       })
       .catch((error) => {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    axios
+      .get(`api/viewcard/${cardId}`, setAxiosAuthToken())
+      .then((response) => {
+        console.log(response.data.data);
+        setCard(response.data.data);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  }, []);
+
   return (
     <div>
       <Box className={classes.payData} boxShadow={3}>
-        <h3>Payment Info</h3>
-        <p>Month/Year - {month+'/'+year} </p>
-        <p>Out Standing Amount - ₹ {amount}</p>
+        <h3>Payment/Card Info</h3>
+        <p>Card no. - {card?.card_no} </p>
+        <p>Card Name - {card?.card_name} </p>
+        <p>Out Standing Amount - {card?.outstanding_amount} </p>
       </Box>
-      {/* <h3 className={classes.title}>Amount Pay</h3> */}
-      <form className={classes.form}>
-        <span>Select amount</span>
-        <TextField
-          id="amount"
-          label="amount"
-          name="amount"
-          variant="outlined"
-          type="number"
-          margin="normal"
-          type="number"
-          inputRef={register}
-          defaultValue={amount}
-          required
-        />
-        <Button onClick={handleClickOpen} variant="contained" color="primary">
-          Submit
-        </Button>
-      </form>
+      {+card?.outstanding_amount ? (
+        <form className={classes.form}>
+          <span>Select amount</span>
+          <TextField
+            id="amount"
+            label="amount"
+            name="amount"
+            variant="outlined"
+            margin="normal"
+            ref={null}
+            inputRef={register}
+            defaultValue={card?.outstanding_amount}
+            required
+          />
+          <Button onClick={handleClickOpen} variant="contained" color="primary">
+            Submit
+          </Button>
+        </form>
+      ) : (
+        <p style={{textAlign: 'center'}} >
+          You are awesome user!
+          <br/>
+          you dont have any outstanding amount
+        </p>
+      )}
       <Dialog
         open={open}
         onClose={handleClose}
@@ -72,7 +93,7 @@ export default function Pay() {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-          Please Confirm Your Pay Amount
+            Please Confirm Your Pay Amount
           </DialogContentText>
         </DialogContent>
         <DialogActions>

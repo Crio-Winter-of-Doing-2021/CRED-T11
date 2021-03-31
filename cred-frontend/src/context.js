@@ -8,3 +8,7 @@ export const AuthContext = createContext({
     logout:()=>{}
 });
 
+
+export const cardContext = createContext({
+    cardDetail: {},
+})

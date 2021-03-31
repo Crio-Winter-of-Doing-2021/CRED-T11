@@ -20,6 +20,12 @@ module.exports = function (app) {
     [authJwt.verifyToken],
     controller.viewCard
   );
+
+  app.get(
+    "/api/viewcard/:id",
+    [authJwt.verifyToken],
+    controller.viewCardById
+  );
   
   app.post(
     "/api/cards/:id/statements/:year/:month",

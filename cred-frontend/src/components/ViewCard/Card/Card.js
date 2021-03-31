@@ -11,7 +11,6 @@ import TextField from "@material-ui/core/TextField";
 import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
-
 export default function Card(props) {
   const classes = useStyles();
   const ref = useRef();
@@ -20,7 +19,6 @@ export default function Card(props) {
   const [open, setOpen] = useState(false);
   let history = useHistory();
 
-
   const handleClickOpen = () => {
     setOpen(true);
   };
@@ -28,6 +26,11 @@ export default function Card(props) {
   const handleClose = () => {
     setOpen(false);
   };
+
+  const handlePay = () => {
+    handleClose();
+    history.push(`pay/${cardId}`)
+  }
   const onSubmit = (data) => {
     handleClose();
     history.push(`/statement/${cardId}/${data.year}/${data.month}`);
@@ -59,16 +62,23 @@ export default function Card(props) {
             </div>
           </div>
         </div>
-        <div className={classes.buttonGroup} >
-        <Button
-          className={classes.Button}
-          variant="outlined"
-          onClick={handleClickOpen}
-          color="primary"
-        >
-          view statement
-        </Button>
-
+        <div className={classes.buttonGroup}>
+            <Button
+              className={classes.Button}
+              onClick={handlePay}
+              variant="outlined"
+              color="primary"
+            >
+              pay
+            </Button>
+          <Button
+            className={classes.Button}
+            variant="outlined"
+            onClick={handleClickOpen}
+            color="primary"
+          >
+            view statement
+          </Button>
         </div>
 
         <Dialog
@@ -182,7 +192,8 @@ const useStyles = makeStyles((theme) => ({
     margin: 10,
   },
   buttonGroup: {
-    direction: 'rtl',
+    display: "flex",
+    direction: "rtl",
   },
   cardName: {},
   cardExpiry: {},
