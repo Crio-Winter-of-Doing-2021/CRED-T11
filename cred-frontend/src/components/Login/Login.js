@@ -9,6 +9,8 @@ import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context";
 import { Redirect } from "react-router-dom";
+import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.css';
 import axios from "axios";
 
 export default function LogIn() {
@@ -29,10 +31,10 @@ export default function LogIn() {
           username:username,
         },
       };
-
+      alertify.success(res.data.metadata.message);
       authContext.login(userResponse.token, userResponse.user);
     } catch (err) {
-      console.log(err);
+      alertify.error(err.response.data.metadata.message);
     }
     console.log(data);
   };

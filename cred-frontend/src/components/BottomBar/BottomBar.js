@@ -1,22 +1,22 @@
-import React, {useState, useEffect } from "react";
+import React, {useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
+import { AuthContext } from "../../context";
 import { Redirect, useHistory } from "react-router";
 
 export default function BottomBar() {
   const [value, setValue] = React.useState(0);
+  const authContext = useContext(AuthContext);
   let history = useHistory();
   const classes = useStyles();
-  const [login, setlogin] = useState(false);
   const logout = () => {
-      localStorage.removeItem("token");
-      localStorage.removeItem("userData");
-      history.push('/');
-  };
+    authContext.logout();
+
+  }
 
 
   return (
@@ -25,7 +25,6 @@ export default function BottomBar() {
         value={value}
         onChange={(event, newValue) => {
           setValue(newValue);
-          console.log(newValue);
         }}
         showLabels
         className={classes.root}

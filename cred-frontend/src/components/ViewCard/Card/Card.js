@@ -116,7 +116,7 @@ export default function Card(props) {
                   id="month"
                   label="Month"
                   name="month"
-                  inputRef={register({ minLength: 2, maxLength: 2 })}
+                  inputRef={register}
                   fullWidth
                   defaultValue=""
                 />

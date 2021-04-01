@@ -26,7 +26,7 @@ export default function AddCard() {
         alertify.success('Card Added Succesfully');       
         history.push('/viewCards')
       }).catch(err => {
-        console.log(err.response.data.metadata)
+        alertify.error('Something went wrong');
       })
   }
 

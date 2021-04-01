@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
-// import { ToastContainer } from "react-toastify";
-import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 import { AuthContext } from "./context";
 import ViewCard from "./components/ViewCard/ViewCard";
 import DashBoard from "./components/DashBoard/DashBoard";
@@ -8,7 +7,6 @@ import "react-toastify/dist/ReactToastify.css";
 import axios from "axios";
 import Landing from "./components/Landing/Landing";
 import AddCard from "./components/AddCard/AddCard";
-import { setAxiosAuthToken } from "./utils/Utils";
 import Statement from "./components/Statement/Statement";
 import Pay from "./components/Pay/Pay";
 import SuccessPage from "./components/SuccessPage/SuccessPage";
@@ -35,7 +33,6 @@ function App() {
     localStorage.removeItem("userData");
   };
   useEffect(() => {
-    // console.log(!!token);
     const storedData = JSON.parse(localStorage.getItem("token"));
     const userData = JSON.parse(localStorage.getItem("userData"));
 
@@ -43,22 +40,29 @@ function App() {
       // console.log(storedData.token);
       login(storedData, userData);
     }
-  }, []);
-
+  }, [token]);
   return (
     <AuthContext.Provider
-      value={{ isLoggedIn: !!token, user: user, login: login, logut: logout }}
+      value={{ isLoggedIn: !!token, user: user, login: login, logout: logout }}
     >
       <Router>
-        <Switch>
-          <Route exact path="/" component={Landing} />
-          <Route exact path="/dashboard" component={DashBoard} />
-          <Route exact path="/addcard" component={AddCard} />
-          <Route exact path="/viewCards" component={ViewCard} />
-          <Route exact path="/statement/:cardId/:year/:month" component={Statement} />
-          <Route exact path="/pay/:cardId" component={Pay} />
-          <Route exact path="/success" component={SuccessPage} />
-        </Switch>
+        <Route exact path="/" component={Landing} />
+        {
+          !token ?
+            <Redirect to="/" />
+            :
+            <div>
+
+              <Route exact path="/dashboard" component={DashBoard} />
+              <Route exact path="/addcard" component={AddCard} />
+              <Route exact path="/viewCards" component={ViewCard} />
+              <Route exact path="/statement/:cardId/:year/:month" component={Statement} />
+              <Route exact path="/pay/:cardId" component={Pay} />
+              <Route exact path="/success" component={SuccessPage} />
+            </div>
+        }
+
+
       </Router>
     </AuthContext.Provider>
   );

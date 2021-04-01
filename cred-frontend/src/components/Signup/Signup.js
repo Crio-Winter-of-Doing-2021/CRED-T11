@@ -9,6 +9,8 @@ import Container from '@material-ui/core/Container';
 import { useForm } from 'react-hook-form';
 import { Redirect } from 'react-router-dom';
 import { AuthContext } from '../../context';
+import alertify from 'alertifyjs';
+import 'alertifyjs/build/css/alertify.css';
 import axios from 'axios';
 
 export default function SignUp(props) {
@@ -21,12 +23,11 @@ export default function SignUp(props) {
     try {
       const res = await axios.post('api/auth/signup', data)
       setStatus(res.status);
-      console.log(res)
+      alertify.success(res.data.metadata.message);
       props.onSuccess();
 
     } catch (err) {
-      console.log({ err })
-      console.log(err.response.data.metadata.message)
+      alertify.error(err.response.data.metadata.message);
     }
   }
   if (authContext.isLoggedIn) {
