@@ -12,6 +12,9 @@ module.exports = (sequelize, Sequelize) => {
     outstanding_amount: {
       type: Sequelize.STRING,
     },
+    familyMember: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
+    },
   });
 
   return Card;

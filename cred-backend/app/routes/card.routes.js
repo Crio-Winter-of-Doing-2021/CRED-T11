@@ -15,6 +15,12 @@ module.exports = function (app) {
     controller.addCard
   );
 
+  app.post(
+    "/api/family/addcard",
+    [authJwt.verifyToken, validateCard.checkFamilyAddValidation],
+    controller.addFamilyCard
+  );
+
   app.get(
     "/api/viewcard",
     [authJwt.verifyToken],

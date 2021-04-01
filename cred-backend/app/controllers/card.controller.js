@@ -9,13 +9,34 @@ exports.addCard = async (req, res) => {
       card_no: req.body.card_no,
       expiry_date: req.body.expiry_date,
       card_name: req.body.card_name,
-      userId: req.userId,
+      userId: req.userId,   
     });
     return sendJSONResponse(res, 201, "card added successfully!");
   } catch (err) {
     return sendBadRequest(res, 500, `${err.message}`);
   }
 };
+
+exports.addFamilyCard = async (req,res) =>{
+  try {
+    const card = await Card.update(
+        {
+          familyMember:db.sequelize.fn('array_append',db.sequelize.col('familyMember'),req.userId),
+        },
+        {
+          where: {
+            id: req.cardId,
+          },
+        }
+    
+    )
+    console.log(card);
+
+  }
+  catch(err){
+
+  }
+}
 
 exports.viewCard = async (req, res) => {
   try {
