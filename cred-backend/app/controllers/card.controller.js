@@ -1,4 +1,5 @@
 const db = require("../models");
+const { Op } = require('sequelize');
 const Card = db.card;
 const Transaction = db.transaction;
 const Amountpaid = db.amountpaid;
@@ -30,11 +31,11 @@ exports.addFamilyCard = async (req,res) =>{
         }
     
     )
-    console.log(card);
+    return sendJSONResponse(res, 201, "You are added as family member");
 
   }
   catch(err){
-
+    return sendBadRequest(res, 400, `${err.message}`);
   }
 }
 
@@ -42,7 +43,16 @@ exports.viewCard = async (req, res) => {
   try {
     const card = await Card.findAll({
       where: {
-        userId: req.userId,
+        [Op.or]:[
+          {
+            userId: req.userId
+          },
+          {
+            familyMember:{
+              [Op.contains]:[req.userId]
+            }
+          }
+        ]
       },
     });
     return sendJSONResponse(res, 201, "All cards of user", card);
@@ -55,10 +65,19 @@ exports.viewCardById = async (req, res) => {
   try {
     const card = await Card.findOne({
       where: {
-        userId: req.userId,
-        id: req.params.id
+        [Op.or]:[
+          {
+          familyMember:{
+            [Op.contains]:[req.userId]
+          }
+        },{
+          userId: req.userId,
+        }
+      ],  
+        id: req.params.id,
       },
     });
+    console.log(card)
     data = card || 'you are not authorized to view this card';
     return sendJSONResponse(res, 201, "Card by ID", data);
   } catch (err) {

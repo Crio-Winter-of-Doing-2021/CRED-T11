@@ -1,6 +1,7 @@
 const db = require("../models");
 const Card = db.card;
 const User = db.user;
+const { Op } = require('sequelize');
 const luhnCheck = require("../utils/utils.js");
 const { sendBadRequest, sendJSONResponse } = require("../utils/handle");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
@@ -18,19 +19,34 @@ checkCardValidation = async (req, res, next) => {
 
       })
       if (card) {
+        const cardfamily = await Card.findOne({
+          where: {
+            familyMember:{
+              [Op.contains]:[req.userId]
+            }
+          }
+        })
         const user = await User.findOne({
           where: {
             id: card.dataValues.userId
           },
         })
-        twilioClient.verify
+        if(user.id!==req.userId && !cardfamily){
+          twilioClient.verify
           .services("VAf7685d17a069ae7d1f5fe43ca9b7ec16")
           //Put the Verification service SID here
           .verifications.create({ to: user.email, channel: "email" })
           .then(verification => {
             console.log(verification.sid);
           });
-        return sendBadRequest(res, 200, "Failed! Card already exist!");
+          const data={
+            email:user.email,
+            cardId:card.dataValues.id,
+          }
+        return sendJSONResponse(res, 200, "Failed! Card already exist!",data);
+        }
+        return sendBadRequest(res, 400, "You can't add your own card again");
+      
       }
     } else {
       return sendBadRequest(res, 400, "Invalid card number!");
@@ -43,7 +59,7 @@ checkCardValidation = async (req, res, next) => {
 };
 
 checkFamilyAddValidation = async (req, res, next) => {
-  req.cardId=req.body.cardId;
+  req.cardId=req.body.cardId; 
     twilioClient.verify
   .services("VAf7685d17a069ae7d1f5fe43ca9b7ec16") //Put the Verification service SID here
   .verificationChecks.create({ to: req.body.email, code: req.body.code })
@@ -79,9 +95,17 @@ checkCardByUserId = async (req, res, next) => {
   try {
     const card = await Card.findOne({
       where: {
+        [Op.or]:[
+          {
+          familyMember:{
+            [Op.contains]:[req.userId]
+          }
+        },{
+          userId: req.userId,
+        }
+      ],  
         id: req.params.id,
-        userId: req.userId
-      }
+      },
     })
     if (!card) {
       return sendBadRequest(res, 401, "You are not authorized to view card");

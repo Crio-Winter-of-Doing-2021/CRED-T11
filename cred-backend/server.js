@@ -27,11 +27,6 @@ db.sequelize.sync();
 // });
 
 
-
-// twilioClient.verify
-//   .services("VAf7685d17a069ae7d1f5fe43ca9b7ec16") //Put the Verification service SID here
-//   .verificationChecks.create({ to: "devkumar5436@gmail.com", code: "089727" })
-//   .then(verification_check => console.log(verification_check.status));
 // simple route
 app.get("/", (req, res) => {
   res.json({ message: "Welcome to CRED " });
