@@ -20,9 +20,17 @@ exports.addCard = async (req, res) => {
 
 exports.addFamilyCard = async (req,res) =>{
   try {
+    const family = await Card.findOne({
+      where:{
+        id: req.cardId
+      }
+    })
+    console.log(family)
+    const familyData = family.dataValues.familyMember || []
+    const familymember=[...familyData,req.userId]
     const card = await Card.update(
         {
-          familyMember:db.sequelize.fn('array_append',db.sequelize.col('familyMember'),req.userId),
+         familyMember:familymember 
         },
         {
           where: {
