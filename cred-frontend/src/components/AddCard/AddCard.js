@@ -67,7 +67,7 @@ export default function AddCard() {
     axios
       .post("/api/addcard", cardData)
       .then((response) => {
-        if (response.data.data.cardId) {
+        if (response?.data?.data?.cardId) {
           setExistCard(response.data.data);
           const email = formatEmailSameLength(response.data.data.email);
           alertify.error(`OTP sent on the ${email}`);
