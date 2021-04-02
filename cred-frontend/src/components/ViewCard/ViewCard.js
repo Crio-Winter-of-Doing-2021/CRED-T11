@@ -3,6 +3,7 @@ import Card from "./Card/Card";
 import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { setAxiosAuthToken } from "../../utils/Utils";
+import EmptyPage from "../EmptyPage/EmptyPage";
 
 export default function ViewCard() {
   const classes = useStyles();
@@ -21,17 +22,21 @@ export default function ViewCard() {
   }, []);
   return (
     <div className={classes.container}>
-      {cards?.map((card, index) => {
-        return (
-          <Card
-            key={card.id}
-            cardId={card.id}
-            cardName={card.card_name}
-            cardNo={card.card_no}
-            expiryDate={card.expiry_date}
-          />
-        );
-      })}
+      {cards.length ? (
+        cards?.map((card, index) => {
+          return (
+            <Card
+              key={card.id}
+              cardId={card.id}
+              cardName={card.card_name}
+              cardNo={card.card_no}
+              expiryDate={card.expiry_date}
+            />
+          );
+        })
+      ) : (
+        <EmptyPage text="you dont have any card pls add cards" />
+      )}
     </div>
   );
 }

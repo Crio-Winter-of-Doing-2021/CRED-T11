@@ -10,6 +10,7 @@ import DialogContentText from "@material-ui/core/DialogContentText";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import axios from "axios";
 import { makeStyles, Button, Card, Box } from "@material-ui/core";
+import SuccessPage from "../SuccessPage/SuccessPage";
 
 export default function Pay() {
   const classes = useStyles();
@@ -17,6 +18,7 @@ export default function Pay() {
   let { cardId } = useParams();
   const [open, setOpen] = useState(false);
   const [card, setCard] = useState({});
+  const [paid, setPaid] = useState(false)
 
   let history = useHistory();
   const handleClickOpen = () => {
@@ -33,7 +35,7 @@ export default function Pay() {
     axios
       .post(`api/card/${cardId}/pay`, data)
       .then((response) => {
-        history.push("/success");
+        setPaid(true)
       })
       .catch((error) => {
         console.log(error);
@@ -54,13 +56,14 @@ export default function Pay() {
 
   return (
     <div>
+      
       <Box className={classes.payData} boxShadow={3}>
         <h3>Payment/Card Info</h3>
         <p>Card no. - {card?.card_no} </p>
         <p>Card Name - {card?.card_name} </p>
         <p>Out Standing Amount - {card?.outstanding_amount} </p>
       </Box>
-      {+card?.outstanding_amount ? (
+      { !paid ? +card?.outstanding_amount ? (
         <form className={classes.form}>
           <span>Select amount</span>
           <TextField
@@ -84,7 +87,7 @@ export default function Pay() {
           <br/>
           you dont have any outstanding amount
         </p>
-      )}
+      ) : <SuccessPage/> }
       <Dialog
         open={open}
         onClose={handleClose}
@@ -105,6 +108,7 @@ export default function Pay() {
           </Button>
         </DialogActions>
       </Dialog>
+      
     </div>
   );
 }
