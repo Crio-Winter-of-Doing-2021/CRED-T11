@@ -1,0 +1,42 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+}
+
+.para {
+  text-align: justify;
+}
+
+.regCard {
+  background-color: aliceblue;
+}
+
+.button {
+  margin: 10px 10px 20px 10px !important;
+}
+
+.root {
+  height: 100vh;
+  background-color: black;
+}
+
+.logo {
+    height: 80px;
+    width: 80px;
+    margin: 10px;
+}
+
+.titleData {
+    display: flex;
+    padding: 10px;
+    align-items: center;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+.title {
+    display: flex;
+    flex-direction: column;
+    color: white;
+}

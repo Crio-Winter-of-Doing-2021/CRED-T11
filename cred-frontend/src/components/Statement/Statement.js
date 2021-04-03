@@ -13,6 +13,7 @@ import axios from "axios";
 import Typography from "@material-ui/core/Typography";
 import { setAxiosAuthToken } from "../../utils/Utils";
 import EmptyPage from "../EmptyPage/EmptyPage";
+import BottomBar from "../BottomBar/BottomBar";
 
 export default function Statement() {
   const classes = useStyles();
@@ -43,10 +44,7 @@ export default function Statement() {
         <h3>My statement</h3>
 
         {statements?.length ? (
-          <Link
-            className={classes.link}
-            to={`/pay/${cardId}`}
-          >
+          <Link className={classes.link} to={`/pay/${cardId}`}>
             <Button variant="outlined" color="primary">
               pay
             </Button>
@@ -93,6 +91,7 @@ export default function Statement() {
       ) : (
         <EmptyPage text="you have no statements" />
       )}
+      <BottomBar />
     </div>
   );
 }
@@ -119,6 +118,6 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: "none",
   },
   month: {
-    textAlign: 'center'
+    textAlign: "center",
   },
 }));

@@ -4,6 +4,8 @@ import { makeStyles } from "@material-ui/core/styles";
 import axios from "axios";
 import { setAxiosAuthToken } from "../../utils/Utils";
 import EmptyPage from "../EmptyPage/EmptyPage";
+import BottomBar from "../BottomBar/BottomBar";
+
 
 export default function ViewCard() {
   const classes = useStyles();
@@ -37,6 +39,7 @@ export default function ViewCard() {
       ) : (
         <EmptyPage text="you dont have any card pls add cards" />
       )}
+      <BottomBar/>
     </div>
   );
 }

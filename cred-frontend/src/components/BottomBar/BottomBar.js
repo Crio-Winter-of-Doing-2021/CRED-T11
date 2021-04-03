@@ -1,10 +1,11 @@
-import React, {useState, useEffect, useContext } from "react";
+import React, { useState, useEffect, useContext } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import BottomNavigation from "@material-ui/core/BottomNavigation";
 import BottomNavigationAction from "@material-ui/core/BottomNavigationAction";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import AddBoxIcon from "@material-ui/icons/AddBox";
 import CreditCardIcon from "@material-ui/icons/CreditCard";
+import HomeIcon from "@material-ui/icons/Home";
 import { AuthContext } from "../../context";
 import { Redirect, useHistory } from "react-router";
 
@@ -15,12 +16,10 @@ export default function BottomBar() {
   const classes = useStyles();
   const logout = () => {
     authContext.logout();
-
-  }
-
+  };
 
   return (
-    <div>
+    <div className={classes.root}>
       <BottomNavigation
         value={value}
         onChange={(event, newValue) => {
@@ -29,6 +28,11 @@ export default function BottomBar() {
         showLabels
         className={classes.root}
       >
+        <BottomNavigationAction
+          onClick={() => history.push("/dashboard")}
+          label="Add card"
+          icon={<HomeIcon />}
+        />
         <BottomNavigationAction
           onClick={() => history.push("/addcard")}
           label="Add card"
@@ -51,6 +55,8 @@ export default function BottomBar() {
 
 const useStyles = makeStyles({
   root: {
-    // width: 500,
+    position: "fixed",
+    width: "100%",
+    top: "92%",
   },
 });
