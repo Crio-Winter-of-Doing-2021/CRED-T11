@@ -25,7 +25,6 @@ exports.addFamilyCard = async (req,res) =>{
         id: req.cardId
       }
     })
-    console.log(family)
     const familyData = family.dataValues.familyMember || []
     const familymember=[...familyData,req.userId]
     const card = await Card.update(
@@ -84,8 +83,7 @@ exports.viewCardById = async (req, res) => {
       ],  
         id: req.params.id,
       },
-    });
-    console.log(card)
+    })
     data = card || 'you are not authorized to view this card';
     return sendJSONResponse(res, 201, "Card by ID", data);
   } catch (err) {

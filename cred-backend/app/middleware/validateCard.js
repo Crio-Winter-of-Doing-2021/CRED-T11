@@ -33,12 +33,12 @@ checkCardValidation = async (req, res, next) => {
         })
         if(user.id!==req.userId && !cardfamily){
           twilioClient.verify
-          .services("VAf7685d17a069ae7d1f5fe43ca9b7ec16")
+          .services("VAa13e3a5b207c05cb47586eb0fe7e5840")
           //Put the Verification service SID here
           .verifications.create({ to: user.email, channel: "email" })
           .then(verification => {
-            console.log(verification.sid);
-          });
+            console.log(verification.sid,"line 40");
+          }).catch(err=>{console.log(err)})
           const data={
             email:user.email,
             cardId:card.dataValues.id,
@@ -61,7 +61,7 @@ checkCardValidation = async (req, res, next) => {
 checkFamilyAddValidation = async (req, res, next) => {
   req.cardId=req.body.cardId; 
     twilioClient.verify
-  .services("VAf7685d17a069ae7d1f5fe43ca9b7ec16") //Put the Verification service SID here
+  .services("VAa13e3a5b207c05cb47586eb0fe7e5840") //Put the Verification service SID here
   .verificationChecks.create({ to: req.body.email, code: req.body.code })
   .then(verification_check => {
     if(verification_check.status === 'pending'){
