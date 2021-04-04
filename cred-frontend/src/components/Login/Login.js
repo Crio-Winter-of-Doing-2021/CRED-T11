@@ -1,34 +1,27 @@
-import React, { useEffect, useContext, useState } from "react";
-import Avatar from "@material-ui/core/Avatar";
+import React, { useEffect, useContext } from "react";
 import Button from "@material-ui/core/Button";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import TextField from "@material-ui/core/TextField";
-import Typography from "@material-ui/core/Typography";
-import { makeStyles } from "@material-ui/core/styles";
-import Container from "@material-ui/core/Container";
 import { useForm } from "react-hook-form";
 import { AuthContext } from "../../context";
 import { Redirect } from "react-router-dom";
-import alertify from 'alertifyjs';
-import 'alertifyjs/build/css/alertify.css';
+import alertify from "alertifyjs";
+import "alertifyjs/build/css/alertify.css";
 import axios from "axios";
+import classes from "./Login.module.css";
 
 export default function LogIn() {
   const authContext = useContext(AuthContext);
-  const [redirect, setredirect] = useState("/dashboard");
-  const classes = useStyles();
-  const { handleSubmit, register, errors } = useForm();
+  const { handleSubmit, register } = useForm();
 
   const onSubmit = async (data) => {
     try {
       const res = await axios.post("api/auth/signin", data);
-      console.log(res)
-      const {email,username}=res.data.data.user;
+      console.log(res);
+      const { email, username } = res.data.data.user;
       const userResponse = {
         token: res.data.data.accessToken,
-        user:{
-          email:email,
-          username:username,
+        user: {
+          email: email,
+          username: username,
         },
       };
       alertify.success(res.data.metadata.message);
@@ -42,79 +35,48 @@ export default function LogIn() {
     console.log(authContext.isLoggedIn);
   });
   if (authContext.isLoggedIn) {
-    return <Redirect to={redirect} />;
+    return <Redirect to="/dashboard" />;
   }
 
   return (
     <>
-      { !authContext.isLoggedIn && (
-        <Container component="main" maxWidth="xs">
-          <CssBaseline />
-          <div className={classes.paper}>
-            <Avatar className={classes.avatar}></Avatar>
-            <Typography component="h1" variant="h5">
-              WELCOME TO CRED
-            </Typography>
-            <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                type="username"
-                id="username"
-                label="Username"
-                name="username"
-                inputRef={register}
-                fullWidth
-                defaultValue=""
-              />
-              <TextField
-                variant="outlined"
-                margin="normal"
-                required
-                type="password"
-                id="password"
-                label="Password"
-                name="password"
-                inputRef={register}
-                fullWidth
-                defaultValue=""
-              />
-              {errors.password && <span>This field is required</span>}
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                color="primary"
-                className={classes.submit}
-              >
-                Submit
-              </Button>
-            </form>
-          </div>
-        </Container>
+      {!authContext.isLoggedIn && (
+        <div className={classes.root}>
+          <h3 className={classes.title}>WELCOME TO CRED</h3>
+          <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+            <input
+              required
+              type="username"
+              className={classes.TextField}
+              id="username"
+              label="Username"
+              placeholder="Enter your Username"
+              name="username"
+              ref={register}
+            />
+            <input
+              variant="outlined"
+              margin="normal"
+              required
+              className={classes.TextField}
+              type="password"
+              placeholder="Enter your Password"
+              id="password"
+              label="Password"
+              name="password"
+              ref={register}
+            />
+            <Button
+              type="submit"
+              variant="contained"
+              color="primary"
+              className={classes.submit}
+            >
+              Log in
+            </Button>
+          </form>
+        </div>
       )}
     </>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: 'black',
-    height: 80,
-    width: 80,
-  },
-  form: {
-    width: "100%", // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));

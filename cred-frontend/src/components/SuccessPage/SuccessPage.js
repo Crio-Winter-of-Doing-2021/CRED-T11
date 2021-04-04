@@ -1,10 +1,10 @@
 import { Button, makeStyles } from "@material-ui/core";
 import React from "react";
-import Lottie from "react-lottie";
 import { useHistory } from "react-router";
-import animationData from "../../assests/success.json";
+import Lottie from "react-lottie";
+import animationData from "../../assests/paymentSucess.json";
 
-export default function SuccessPage() {
+export default function SuccessPage({ amount }) {
   const classes = useStyles();
   const history = useHistory();
   const defaultOptions = {
@@ -17,13 +17,18 @@ export default function SuccessPage() {
   };
   return (
     <div>
-      <div className={classes.animation}>
+      <div>
         <Lottie options={defaultOptions} height={200} width={200} />
       </div>
       <div className={classes.message}>
+        <h2>₹ {amount }</h2>
         <h2>Paid Succesfully</h2>
-        <Button onClick={()=>history.push('/dashboard')} variant="outlined" color="secondary">
-            Go Back to Home Page
+        <Button
+          onClick={() => history.push("/dashboard")}
+          variant="outlined"
+          color="secondary"
+        >
+          Go Back to Home Page
         </Button>
       </div>
     </div>
@@ -31,10 +36,8 @@ export default function SuccessPage() {
 }
 
 const useStyles = makeStyles((theme) => ({
-  animation: {
-    margin: "100px 0px",
-  },
   message: {
-      textAlign: 'center'
-  }
+    textAlign: "center",
+    color: "white",
+  },
 }));

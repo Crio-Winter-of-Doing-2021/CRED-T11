@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { makeStyles, Button } from "@material-ui/core";
+import { Button } from "@material-ui/core";
 import { Link, useParams } from "react-router-dom";
 import Timeline from "@material-ui/lab/Timeline";
 import TimelineItem from "@material-ui/lab/TimelineItem";
@@ -14,9 +14,9 @@ import Typography from "@material-ui/core/Typography";
 import { setAxiosAuthToken } from "../../utils/Utils";
 import EmptyPage from "../EmptyPage/EmptyPage";
 import BottomBar from "../BottomBar/BottomBar";
+import classes from "./Statement.module.css";
 
 export default function Statement() {
-  const classes = useStyles();
   const [statements, setStatements] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   let { cardId, year, month } = useParams();
@@ -39,85 +39,66 @@ export default function Statement() {
   }, []);
 
   return (
-    <div>
-      <div className={classes.title}>
-        <h3>My statement</h3>
+    <div className={classes.root}>
+      <div className={classes.titleBar}>
+        <div className={classes.title}>
+          <h3>My statement</h3>
 
+          {statements?.length ? (
+            <Link className={classes.link} to={`/pay/${cardId}`}>
+              <Button
+                className={classes.button}
+                variant="outlined"
+                color="primary"
+              >
+                pay
+              </Button>
+            </Link>
+          ): ""}
+        </div>
+        <div className={classes.month}>
+          <p>
+            Total transaction amount for {month}/{year}
+            <br />
+            (₹ {totalAmount})
+          </p>
+        </div>
+      </div>
+
+      <div className={classes.statement}>
         {statements?.length ? (
-          <Link className={classes.link} to={`/pay/${cardId}`}>
-            <Button variant="outlined" color="primary">
-              pay
-            </Button>
-          </Link>
+          statements?.map((statement) => {
+            return (
+              <Timeline key={statement.id} align="left">
+                <TimelineItem className={classes.Timeline}>
+                  <TimelineOppositeContent
+                    className={classes.TimelineOppositeContent}
+                  />
+                  <TimelineSeparator>
+                    <TimelineDot variant="outlined" />
+                    <TimelineConnector />
+                  </TimelineSeparator>
+                  <TimelineContent className={classes.TimelineContent}>
+                    <Paper elevation={3} className={classes.paper}>
+                      <Typography variant="h6" component="h1">
+                        ₹ {statement.amount}
+                      </Typography>
+                      <Typography>
+                        vendor - {statement.vendor} (
+                        {statement.transaction_type})
+                      </Typography>
+                      <Typography>category - {statement.category}</Typography>
+                    </Paper>
+                  </TimelineContent>
+                </TimelineItem>
+              </Timeline>
+            );
+          })
         ) : (
-          ""
+          <EmptyPage text="you have no statements" />
         )}
       </div>
-      <div className={classes.month}>
-        <p>
-          Total transaction amount for {month}/{year}
-          <br />
-          (₹ {totalAmount}){" "}
-        </p>
-      </div>
-
-      {statements?.length ? (
-        statements?.map((statement) => {
-          return (
-            <Timeline key={statement.id} align="left">
-              <TimelineItem className={classes.Timeline}>
-                <TimelineOppositeContent
-                  className={classes.TimelineOppositeContent}
-                />
-                <TimelineSeparator>
-                  <TimelineDot variant="outlined" />
-                  <TimelineConnector />
-                </TimelineSeparator>
-                <TimelineContent className={classes.TimelineContent}>
-                  <Paper elevation={3} className={classes.paper}>
-                    <Typography variant="h6" component="h1">
-                      ₹ {statement.amount}
-                    </Typography>
-                    <Typography>
-                      vendor - {statement.vendor} ({statement.transaction_type})
-                    </Typography>
-                    <Typography>category - {statement.category}</Typography>
-                  </Paper>
-                </TimelineContent>
-              </TimelineItem>
-            </Timeline>
-          );
-        })
-      ) : (
-        <EmptyPage text="you have no statements" />
-      )}
       <BottomBar />
     </div>
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  title: {
-    display: "flex",
-    alignItems: "center",
-    justifyContent: "space-around",
-    textAlign: "center",
-    fontSize: 18,
-    margin: 10,
-  },
-  paper: {
-    padding: "6px 16px",
-  },
-  TimelineContent: {
-    marginBottom: 30,
-  },
-  TimelineOppositeContent: {
-    display: "none",
-  },
-  link: {
-    textDecoration: "none",
-  },
-  month: {
-    textAlign: "center",
-  },
-}));

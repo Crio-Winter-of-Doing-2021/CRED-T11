@@ -23,10 +23,6 @@ export default function AddCard() {
   const [open, setOpen] = useState(false);
   const [existCard, setExistCard] = useState({});
 
-  const handleClickOpen = () => {
-    setOpen(true);
-  };
-
   const handleClose = () => {
     setOpen(false);
   };

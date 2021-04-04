@@ -1,4 +1,3 @@
-import { Box, Button, Card } from "@material-ui/core";
 import React, { useState } from "react";
 import LogIn from "../Login/Login";
 import SignUp from "../Signup/Signup";
@@ -18,7 +17,7 @@ export default function Landing() {
   return (
     <div className={classes.root}>
       <div className={classes.titleData}>
-        <img src={credLogo} className={classes.logo} />
+        <img src={credLogo} alt="logo" className={classes.logo} />
         <div className={classes.title}>
           <p>
             CREDIT CARD
@@ -27,23 +26,13 @@ export default function Landing() {
           </p>
         </div>
       </div>
-      <div>
-        <Button
-          className={classes.button}
-          onClick={() => handleOption(true)}
-          variant="outlined"
-          color="secondary"
-        >
+      <div className={classes.btngrp} > 
+        <button className={classes.btn} onClick={() => handleOption(true)}>
           Log in
-        </Button>
-        <Button
-          className={classes.button}
-          onClick={() => handleOption(false)}
-          variant="outlined"
-          color="primary"
-        >
+        </button>
+        <button className={classes.btn} onClick={() => handleOption(false)}>
           Sign Up
-        </Button>
+        </button>
       </div>
       <div className={classes.regCard}>
         {isLoginOption ? <LogIn /> : <SignUp onSuccess={onSuccess} />}
