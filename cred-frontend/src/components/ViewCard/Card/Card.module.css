@@ -1,0 +1,60 @@
+.cardStyle {
+  font-family: Space Mono, monospace;
+  text-shadow: 0 1px 1px rgba(0, 0, 0, 0.3);
+  height: 200px;
+  width: 320px;
+  flex: 0 0 auto;
+  margin: 40px 10px;
+}
+
+.card {
+  height: 100%;
+  border-radius: 8px;
+  background: linear-gradient(45deg, #343a40, #666666, #343a40);
+  color: #fff;
+}
+
+.cardNumber {
+  position: relative;
+  top: 75px;
+  display: flex;
+  justify-content: space-between;
+  font-size: 18px;
+  word-spacing: 8px;
+  letter-spacing: 2px;
+  padding: 0 16px;
+}
+.p {
+  margin-top: 8px;
+  font-size: 15px;
+}
+.cardInfo {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  letter-spacing: 1px;
+  line-height: 18px;
+  text-transform: uppercase;
+  position: relative;
+  top: 110px;
+  padding: 0 15px;
+}
+.Button {
+  margin: 10px 10px 10px 0px !important;
+  text-decoration: none !important;
+  color: white !important;
+  border-color: blue !important;
+}
+.link {
+  text-decoration: none !important;
+}
+.monthDialog {
+  display: flex !important;
+}
+.textField {
+  margin: 10px !important;
+}
+.buttonGroup {
+  display: flex;
+  direction: rtl;
+}

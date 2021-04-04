@@ -1,0 +1,32 @@
+.root {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.form {
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.TextField {
+  margin: 10px;
+  padding: 10px;
+  font-size: 16px;
+  background-color: transparent;
+  color: white;
+  border-color: white;
+}
+
+.title {
+  color: #3f51b5;
+  font-size: 25px;
+  text-shadow: 1px 1px white;
+}
+
+.submit {
+  margin: 10px 0px !important;
+}

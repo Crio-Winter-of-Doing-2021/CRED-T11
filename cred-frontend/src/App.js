@@ -49,7 +49,7 @@ function App() {
         <Route exact path="/" component={Landing} />
         {
           !token ?
-            <Redirect to="/" />
+            <Redirect exact to="/" />
             :
             <div>
 

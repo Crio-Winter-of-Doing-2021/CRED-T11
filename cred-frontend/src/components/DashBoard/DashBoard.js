@@ -1,31 +1,49 @@
-import {
-  Avatar,
-  BottomNavigation,
-  BottomNavigationAction,
-  Button,
-  Card,
-  makeStyles,
-  Box,
-} from "@material-ui/core";
-import FavoriteIcon from "@material-ui/icons/Favorite";
+import { Avatar } from "@material-ui/core";
 import React, { useContext } from "react";
 import { AuthContext } from "../../context";
-import { Redirect, useHistory } from "react-router-dom";
 import BottomBar from "../BottomBar/BottomBar";
+import Lottie from "react-lottie";
+import classes from "./DashBoard.module.css";
+import addcard from "../../assests/addcard.json";
+import pay from "../../assests/paymentSucess.json";
+import statement from "../../assests/statement.json";
+import family from "../../assests/family.json";
 
 export default function DashBoard() {
   const authContext = useContext(AuthContext);
-  const classes = useStyles();
-  const history = useHistory();
   const user = authContext.user;
-  const handleOption = (type) => {
-    console.log(type);
-    switch (type) {
-      case "ADD":
-        return history.push("/addcard");
-      case "VIEW":
-        return history.push("/viewCards");
-    }
+
+  const defaultOptions1 = {
+    loop: true,
+    autoplay: true,
+    animationData: addcard,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  const defaultOptions2 = {
+    loop: true,
+    autoplay: true,
+    animationData: pay,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  const defaultOptions3 = {
+    loop: true,
+    autoplay: true,
+    animationData: statement,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
+  };
+  const defaultOptions4 = {
+    loop: true,
+    autoplay: true,
+    animationData: family,
+    rendererSettings: {
+      preserveAspectRatio: "xMidYMid slice",
+    },
   };
   return (
     true && (
@@ -41,72 +59,62 @@ export default function DashBoard() {
           </div>
         </div>
         <div className={classes.buttons}>
-          <Box className={classes.box} boxShadow={5}>
-            <h3>Referral offers</h3>
-            <p>
-              Cred Referral Offer - Install App & Get 2% Upto Rs.1000 Cashback
-              on First Credit Card Bill Payment. Refer Friend & Earn Upto
-              Rs.1000 cashback per referral. Earn the 10 cred gems by inviting
-              people to cred.
-            </p>
-          </Box>
-          <Box className={classes.box} boxShadow={5}>
-            <h3>Program offers</h3>
-            <p>
-              Cred Referral Offer - Install App & Get 2% Upto Rs.1000 Cashback
-              on First Credit Card Bill Payment. Refer Friend & Earn Upto
-              Rs.1000 cashback per referral. Earn the 10 cred gems by inviting
-              people to cred.
-            </p>
-          </Box>
-          <Box className={classes.box} boxShadow={5}>
-            <h3>Point offers</h3>
-            <p>
-              Cred Referral Offer - Install App & Get 2% Upto Rs.1000 Cashback
-              on First Credit Card Bill Payment. Refer Friend & Earn Upto
-              Rs.1000 cashback per referral. Earn the 10 cred gems by inviting
-              people to cred.
-            </p>
-          </Box>
+          <div className={classes.info}>
+            <Lottie
+              style={{ margin: 5 }}
+              options={defaultOptions1}
+              height={70}
+              width={70}
+            />
+            <div className={classes.infoTitle}>
+              <p>Add your card to check statements and outstanding amounts</p>
+            </div>
+          </div>
+          <div className={classes.info}>
+            <Lottie
+              style={{ margin: 5 }}
+              options={defaultOptions2}
+              height={70}
+              width={70}
+            />
+            <div className={classes.infoTitle}>
+              <p>
+                faster payments for the credit card bill and one tap payment
+                available
+              </p>
+            </div>
+          </div>
+          <div className={classes.info}>
+            <Lottie
+              style={{ margin: 5 }}
+              options={defaultOptions3}
+              height={70}
+              width={70}
+            />
+            <div className={classes.infoTitle}>
+              <p>
+                you can check your smart statment monthwise with total
+                transaction amount
+              </p>
+            </div>
+          </div>
+          <div className={classes.info}>
+            <Lottie
+              style={{ margin: 5 }}
+              options={defaultOptions4}
+              height={70}
+              width={70}
+            />
+            <div className={classes.infoTitle}>
+              <p>
+                you can add your family members card as well they can authorize
+                you via OTP
+              </p>
+            </div>
+          </div>
         </div>
         <BottomBar />
       </div>
     )
   );
 }
-
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: "80vh",
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: "black",
-    height: 50,
-    width: 50,
-  },
-  userData: {
-    display: "flex",
-    alignItems: "center",
-    padding: 10,
-    lineHeight: 1.4,
-  },
-  title: {
-    marginLeft: 5,
-  },
-  buttons: {
-    display: "flex",
-    flexDirection: "column",
-    height: "100%",
-    margin: 10,
-  },
-  button: {
-    width: "50%",
-    margin: "20px 10px",
-  },
-  box: {
-    margin: "10px 0px",
-    padding: 10,
-    backgroundColor: "antiquewhite",
-  },
-}));

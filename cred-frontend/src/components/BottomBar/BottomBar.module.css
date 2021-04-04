@@ -1,0 +1,12 @@
+.root {
+  position: fixed;
+  width: 100%;
+  bottom: 0%;
+  background-color: #131419 !important;
+  border-top: 1px solid blue;
+  padding-top: 5px;
+}
+
+.bottomButton {
+    color: white !important;
+}
