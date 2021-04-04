@@ -9,6 +9,7 @@ import Landing from "./components/Landing/Landing";
 import AddCard from "./components/AddCard/AddCard";
 import Statement from "./components/Statement/Statement";
 import Pay from "./components/Pay/Pay";
+import CreditForm from "./components/AddCard/CreditForm";
 
 
 if (window.location.origin === "http://localhost:3000") {
@@ -53,7 +54,7 @@ function App() {
             <div>
 
               <Route exact path="/dashboard" component={DashBoard} />
-              <Route exact path="/addcard" component={AddCard} />
+              <Route exact path="/addcard" component={CreditForm} />
               <Route exact path="/viewCards" component={ViewCard} />
               <Route exact path="/statement/:cardId/:year/:month" component={Statement} />
               <Route exact path="/pay/:cardId" component={Pay} />
