@@ -4,7 +4,6 @@ const Transaction=db.transaction;
 
 
 validateTransactionById=(req,res,next)=>{
-    console.log(req.params);
 
     next();
 

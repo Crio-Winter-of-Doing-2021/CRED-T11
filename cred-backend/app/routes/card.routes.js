@@ -15,10 +15,22 @@ module.exports = function (app) {
     controller.addCard
   );
 
+  app.post(
+    "/api/family/addcard",
+    [authJwt.verifyToken, validateCard.checkFamilyAddValidation],
+    controller.addFamilyCard
+  );
+
   app.get(
     "/api/viewcard",
     [authJwt.verifyToken],
     controller.viewCard
+  );
+
+  app.get(
+    "/api/viewcard/:id",
+    [authJwt.verifyToken],
+    controller.viewCardById
   );
   
   app.post(
@@ -34,7 +46,7 @@ module.exports = function (app) {
   )
 
   app.post(
-    "/api/card/:id/pay",
+    "/api/card/:id/pay/",
     [authJwt.verifyToken,validateCard.checkCardById,validateCard.checkCardByUserId],
     controller.amountPay
   )

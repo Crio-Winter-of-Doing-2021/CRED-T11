@@ -1,0 +1,43 @@
+.root {
+  height: 100vh;
+  background-color: #131419;
+}
+
+.avatar {
+  background-color: white !important;
+  color: blue !important;
+  height: 50px;
+  width: 50px;
+}
+
+.userData {
+  display: flex;
+  align-items: center;
+  padding: 10px;
+  margin-left: 10px;
+  line-height: 20px;
+}
+.title {
+  margin-left: 10px;
+  color: white;
+}
+
+.info {
+    display: flex;
+    border: 1px solid blue;
+    margin: 15px 5px;
+    border-radius: 10px;
+    padding: 0px 5px;
+    align-items: center;
+    flex-direction: row;
+}
+
+.infoTitle {
+    margin-left: 10px;
+    font-size: 14px;
+    color: white;
+}
+
+.lottie {
+    margin: 5px !important;
+}

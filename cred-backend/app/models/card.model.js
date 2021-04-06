@@ -9,8 +9,11 @@ module.exports = (sequelize, Sequelize) => {
     card_name: {
       type: Sequelize.STRING,
     },
-    amount_paid: {
-      type: Sequelize.INTEGER,
+    outstanding_amount: {
+      type: Sequelize.STRING,
+    },
+    familyMember: {
+      type: Sequelize.ARRAY(Sequelize.STRING),
     },
   });
 

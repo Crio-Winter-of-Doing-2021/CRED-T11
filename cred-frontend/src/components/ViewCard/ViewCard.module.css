@@ -1,0 +1,21 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-bottom: 25%;
+  padding-top: 7%;
+  min-height: 80vh;
+  background-color: black;
+}
+
+.title {
+    color: white;
+    background-color: black;
+    position: fixed;
+    z-index: 10;
+    width: 100%;
+    text-align: center;
+    padding: 15px 0px;
+    margin: 0px;
+    border-bottom: 1px solid blue;
+}
