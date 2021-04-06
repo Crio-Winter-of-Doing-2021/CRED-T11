@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import {  useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { setAxiosAuthToken } from "../../utils/Utils";
 import Dialog from "@material-ui/core/Dialog";
@@ -12,6 +12,7 @@ import SuccessPage from "../SuccessPage/SuccessPage";
 import BottomBar from "../BottomBar/BottomBar";
 import classes from "./Pay.module.css";
 import Lottie from "react-lottie";
+import alertify from "alertifyjs";
 import animationData from "../../assests/party.json";
 
 export default function Pay() {
@@ -39,17 +40,22 @@ export default function Pay() {
   };
 
   const onSubmit = async (data) => {
-    setOpen(false);
-    setAmount(data.amount);
-    setAxiosAuthToken();
-    axios
-      .post(`api/card/${cardId}/pay`, data)
-      .then((response) => {
-        setPaid(true);
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    if (data.amount > card?.outstanding_amount) {
+      alertify.error("Enter valid amount");
+    } else {
+      setOpen(false);
+      setAmount(data.amount)
+      setAxiosAuthToken();
+      axios
+        .post(`api/card/${cardId}/pay`, data)
+        .then((response) => {
+          setPaid(true);
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+
   };
 
   useEffect(() => {
