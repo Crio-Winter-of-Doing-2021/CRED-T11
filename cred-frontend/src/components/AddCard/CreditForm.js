@@ -158,228 +158,230 @@ export default function CreditForm() {
     displayNumber.push(displayDigit);
   }
   return (
-    <div className={classes.cardform}>
-      <div
-        className={classNames(
-          classes.card,
-          classes.container,
-          showcard ? classes.show : ""
-        )}
-      >
-        <div className={classNames(classes.card, classes.inner)}>
-          <div className={classes.front}>
-            <img
-              className={classNames(classes.card, classes.cover)}
-              src="https://source.unsplash.com/collection/8497941/430x270"
-              onLoad={() => setShowcard(true)}
-            />
-            <div className={classNames(classes.card, classes.overlay)} />
-            <div className={classNames(classes.card, classes.content)}>
-              <div className={classes.chip} />
-              <div className={classNames(classes.type, classes.visa)} />
-              <div className={classes.number}>
-                {displayNumber.map((digit, index) => (
-                  <div className={classes.digitwrapper} key={index}>
-                    <div
-                      className={
-                        digit === "#"
-                          ? classNames(classes.digit, classes.shown)
-                          : classNames(classes.digit, classes.hidden)
-                      }
-                    >
-                      #
-                    </div>
-                    <div
-                      className={
-                        digit === "#"
-                          ? classNames(classes.digit, classes.hidden)
-                          : classNames(classes.digit, classes.shown)
-                      }
-                    >
-                      {digit === "#" ? "" : digit}
-                    </div>
-                  </div>
-                ))}
-              </div>
-              <div className={classes.name}>
-                <label htmlFor="name">Card Holder</label>
-                <div id="name">
-                  <div
-                    className={classNames(
-                      classes.placeholder,
-                      cardName.length > 0 ? classes.hidden : classes.shown
-                    )}
-                  >
-                    FULL NAME
-                  </div>
-                  <div className={classes.nameContainer}>
-                    {cardName.split("").map((char, index) => (
+    <div>
+      <div className={classes.cardform}>
+        <div
+          className={classNames(
+            classes.card,
+            classes.container,
+            showcard ? classes.show : ""
+          )}
+        >
+          <div className={classNames(classes.card, classes.inner)}>
+            <div className={classes.front}>
+              <img
+                className={classNames(classes.card, classes.cover)}
+                src="https://source.unsplash.com/collection/8497941/430x270"
+                onLoad={() => setShowcard(true)}
+              />
+              <div className={classNames(classes.card, classes.overlay)} />
+              <div className={classNames(classes.card, classes.content)}>
+                <div className={classes.chip} />
+                <div className={classNames(classes.type, classes.visa)} />
+                <div className={classes.number}>
+                  {displayNumber.map((digit, index) => (
+                    <div className={classes.digitwrapper} key={index}>
                       <div
-                        className={classNames(
-                          classes.character,
-                          `${/\s/.test(char)}` ? classes.space : ""
-                        )}
-                        key={index}
+                        className={
+                          digit === "#"
+                            ? classNames(classes.digit, classes.shown)
+                            : classNames(classes.digit, classes.hidden)
+                        }
                       >
-                        {char}
+                        #
                       </div>
-                    ))}
+                      <div
+                        className={
+                          digit === "#"
+                            ? classNames(classes.digit, classes.hidden)
+                            : classNames(classes.digit, classes.shown)
+                        }
+                      >
+                        {digit === "#" ? "" : digit}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+                <div className={classes.name}>
+                  <label htmlFor="name">Card Holder</label>
+                  <div id="name">
+                    <div
+                      className={classNames(
+                        classes.placeholder,
+                        cardName.length > 0 ? classes.hidden : classes.shown
+                      )}
+                    >
+                      FULL NAME
+                    </div>
+                    <div className={classes.nameContainer}>
+                      {cardName.split("").map((char, index) => (
+                        <div
+                          className={classNames(
+                            classes.character,
+                            `${/\s/.test(char)}` ? classes.space : ""
+                          )}
+                          key={index}
+                        >
+                          {char}
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
-              <div className={classes.expiration}>
-                <label htmlFor="expiration">Expires</label>
-                <div id="expiration">
-                  <div
-                    className={classNames(
-                      classes.doubledigit,
-                      `${toggleMonth}` ? classes.toggle1 : classes.toggle2
-                    )}
-                  >
-                    {cardMonth === 0 ? "MM" : `${cardMonth + 100}`.slice(-2)}
-                  </div>
-                  <div className={classes.doubledigit}>/</div>
-                  <div
-                    className={classNames(
-                      classes.year,
-                      classes.doubledigit,
-                      `${toggleYear}` ? classes.toggle1 : classes.toggle2
-                    )}
-                  >
-                    {cardYear === 0 ? "YY" : `${cardYear}`.slice(-2)}
+                <div className={classes.expiration}>
+                  <label htmlFor="expiration">Expires</label>
+                  <div id="expiration">
+                    <div
+                      className={classNames(
+                        classes.doubledigit,
+                        `${toggleMonth}` ? classes.toggle1 : classes.toggle2
+                      )}
+                    >
+                      {cardMonth === 0 ? "MM" : `${cardMonth + 100}`.slice(-2)}
+                    </div>
+                    <div className={classes.doubledigit}>/</div>
+                    <div
+                      className={classNames(
+                        classes.year,
+                        classes.doubledigit,
+                        `${toggleYear}` ? classes.toggle1 : classes.toggle2
+                      )}
+                    >
+                      {cardYear === 0 ? "YY" : `${cardYear}`.slice(-2)}
+                    </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         </div>
-      </div>
-      <div className={classes.cardInputs}>
-        <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
-          <div className={classes.lginput}>
-            <label htmlFor="cardNumber" className={classes.label}>
-              {" "}
-              Card Number
-            </label>
-            <input
-              className={classNames(classes.numberinput, classes.input)}
-              id="cardNumber"
-              name="card_no"
-              type="text"
-              onChange={(event) => handleChange(event, "cardNumber")}
-              value={formatCardNumber(cardNumber)}
-              maxLength="19"
-              ref={register}
-            />
-          </div>
-          <div className={classes.lginput}>
-            <label htmlFor="cardName" className={classes.label}>
-              Card Holder's Name
-            </label>
-            <input
-              className={classNames(classes.input, classes.nameinput)}
-              id="cardName"
-              name="card_name"
-              type="text"
-              onChange={(event) => handleChange(event, "cardName")}
-              value={cardName}
-              maxLength="24"
-              ref={register}
-            />
-          </div>
-          <div className={classes.medinput}>
-            <label htmlFor="cardMonth" className={classes.label}>
-              Expiration Date
-            </label>
-            <select
-              className={classNames(
-                classes.input,
-                classes.monthinput,
-                classes.select
-              )}
-              id="cardMonth"
-              name="month"
-              ref={register}
-              value={cardMonth}
-              onChange={(event) => handleChange(event, "cardMonth")}
-            >
-              {" "}
-              <option value="0" disabled>
-                Month
-              </option>
-              {MONTHS.map((month) => (
-                <option key={month} value={month}>
-                  {month}
+        <div className={classes.cardInputs}>
+          <form onSubmit={handleSubmit(onSubmit)} className={classes.form}>
+            <div className={classes.lginput}>
+              <label htmlFor="cardNumber" className={classes.label}>
+                {" "}
+                Card Number
+              </label>
+              <input
+                className={classNames(classes.numberinput, classes.input)}
+                id="cardNumber"
+                name="card_no"
+                type="text"
+                onChange={(event) => handleChange(event, "cardNumber")}
+                value={formatCardNumber(cardNumber)}
+                maxLength="19"
+                ref={register}
+              />
+            </div>
+            <div className={classes.lginput}>
+              <label htmlFor="cardName" className={classes.label}>
+                Card Holder's Name
+              </label>
+              <input
+                className={classNames(classes.input, classes.nameinput)}
+                id="cardName"
+                name="card_name"
+                type="text"
+                onChange={(event) => handleChange(event, "cardName")}
+                value={cardName}
+                maxLength="24"
+                ref={register}
+              />
+            </div>
+            <div className={classes.medinput}>
+              <label htmlFor="cardMonth" className={classes.label}>
+                Expiration Date
+              </label>
+              <select
+                className={classNames(
+                  classes.input,
+                  classes.monthinput,
+                  classes.select
+                )}
+                id="cardMonth"
+                name="month"
+                ref={register}
+                value={cardMonth}
+                onChange={(event) => handleChange(event, "cardMonth")}
+              >
+                {" "}
+                <option value="0" disabled>
+                  Month
                 </option>
-              ))}
-            </select>
-            <select
-              className={classNames(
-                classes.input,
-                classes.yearinput,
-                classes.select
-              )}
-              id="cardYear"
-              name="year"
-              ref={register}
-              value={cardYear}
-              onChange={(event) => handleChange(event, "cardYear")}
-            >
-              {" "}
-              <option value="0" disabled>
-                Year
-              </option>
-              {YEARS.map((year) => (
-                <option key={year} value={year}>
-                  {year}
+                {MONTHS.map((month) => (
+                  <option key={month} value={month}>
+                    {month}
+                  </option>
+                ))}
+              </select>
+              <select
+                className={classNames(
+                  classes.input,
+                  classes.yearinput,
+                  classes.select
+                )}
+                id="cardYear"
+                name="year"
+                ref={register}
+                value={cardYear}
+                onChange={(event) => handleChange(event, "cardYear")}
+              >
+                {" "}
+                <option value="0" disabled>
+                  Year
                 </option>
-              ))}
-            </select>
-          </div>
-          <button
-            className={classNames(classes.button, classes.lginput)}
-            type="submit"
-          >
-            Submit
-          </button>
-        </form>
+                {YEARS.map((year) => (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <button
+              className={classNames(classes.button, classes.lginput)}
+              type="submit"
+            >
+              Submit
+            </button>
+          </form>
+        </div>
+        <Dialog
+          open={open}
+          ref={ref}
+          onClose={handleClose}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">Enter OTP</DialogTitle>
+          <form onSubmit={handleSubmit(otpValidate)}>
+            <DialogContent>
+              <DialogContentText>
+                Please enter OTP which was sent on the email id of original user
+                of card
+              </DialogContentText>
+              <TextField
+                className={classes.textField}
+                variant="outlined"
+                margin="normal"
+                required
+                type="text"
+                id="OTP"
+                label="OTP"
+                inputRef={register}
+                name="otp"
+                fullWidth
+              />
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                Cancel
+              </Button>
+              <Button type="submit" color="primary">
+                submit
+              </Button>
+            </DialogActions>
+          </form>
+        </Dialog>
       </div>
-      <Dialog
-        open={open}
-        ref={ref}
-        onClose={handleClose}
-        aria-labelledby="form-dialog-title"
-      >
-        <DialogTitle id="form-dialog-title">Enter OTP</DialogTitle>
-        <form onSubmit={handleSubmit(otpValidate)}>
-          <DialogContent>
-            <DialogContentText>
-              Please enter OTP which was sent on the email id of original user
-              of card
-            </DialogContentText>
-            <TextField
-              className={classes.textField}
-              variant="outlined"
-              margin="normal"
-              required
-              type="text"
-              id="OTP"
-              label="OTP"
-              inputRef={register}
-              name="otp"
-              fullWidth
-            />
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose} color="primary">
-              Cancel
-            </Button>
-            <Button type="submit" color="primary">
-              submit
-            </Button>
-          </DialogActions>
-        </form>
-      </Dialog>
       <BottomBar />
     </div>
   );
