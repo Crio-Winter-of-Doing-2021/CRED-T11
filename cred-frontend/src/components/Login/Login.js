@@ -15,7 +15,6 @@ export default function LogIn() {
   const onSubmit = async (data) => {
     try {
       const res = await axios.post("api/auth/signin", data);
-      console.log(res);
       const { email, username } = res.data.data.user;
       const userResponse = {
         token: res.data.data.accessToken,
@@ -29,7 +28,6 @@ export default function LogIn() {
     } catch (err) {
       alertify.error(err.response.data.metadata.message);
     }
-    console.log(data);
   };
   useEffect(() => {
     console.log(authContext.isLoggedIn);

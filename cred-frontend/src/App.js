@@ -11,12 +11,8 @@ import Statement from "./components/Statement/Statement";
 import Pay from "./components/Pay/Pay";
 import CreditForm from "./components/AddCard/CreditForm";
 
+axios.defaults.baseURL = "https://credcredit-server.herokuapp.com/";
 
-if (window.location.origin === "http://localhost:3000") {
-  axios.defaults.baseURL = "http://127.0.0.1:8080";
-} else {
-  axios.defaults.baseURL = window.location.origin;
-}
 function App() {
   const [token, setToken] = useState(null);
   const [user, setUser] = useState({});
@@ -47,21 +43,21 @@ function App() {
     >
       <Router>
         <Route exact path="/" component={Landing} />
-        {
-          !token ?
-            <Redirect exact to="/" />
-            :
-            <div>
-
-              <Route exact path="/dashboard" component={DashBoard} />
-              <Route exact path="/addcard" component={CreditForm} />
-              <Route exact path="/viewCards" component={ViewCard} />
-              <Route exact path="/statement/:cardId/:year/:month" component={Statement} />
-              <Route exact path="/pay/:cardId" component={Pay} />
-            </div>
-        }
-
-
+        {!token ? (
+          <Redirect exact to="/" />
+        ) : (
+          <div>
+            <Route exact path="/dashboard" component={DashBoard} />
+            <Route exact path="/addcard" component={CreditForm} />
+            <Route exact path="/viewCards" component={ViewCard} />
+            <Route
+              exact
+              path="/statement/:cardId/:year/:month"
+              component={Statement}
+            />
+            <Route exact path="/pay/:cardId" component={Pay} />
+          </div>
+        )}
       </Router>
     </AuthContext.Provider>
   );

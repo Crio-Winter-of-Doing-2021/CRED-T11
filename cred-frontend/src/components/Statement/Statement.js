@@ -29,7 +29,6 @@ export default function Statement() {
     axios
       .get(`api/cards/${cardId}/statements/${year}/${month}`)
       .then((response) => {
-        console.log(response.data.data);
         setStatements(response.data.data);
         setTotalAmount(sumPropertyValue(response.data.data, "amount"));
       })

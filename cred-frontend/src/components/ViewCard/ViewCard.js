@@ -13,7 +13,6 @@ export default function ViewCard() {
     axios
       .get("api/viewcard", setAxiosAuthToken())
       .then((response) => {
-        console.log(response.data.data);
         setCards(response.data.data);
       })
       .catch((error) => {

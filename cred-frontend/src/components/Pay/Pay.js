@@ -62,7 +62,6 @@ export default function Pay() {
     axios
       .get(`api/viewcard/${cardId}`, setAxiosAuthToken())
       .then((response) => {
-        console.log(response.data.data);
         setCard(response.data.data);
       })
       .catch((error) => {

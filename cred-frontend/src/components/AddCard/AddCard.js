@@ -43,7 +43,6 @@ export default function AddCard() {
     axios
       .post("/api/family/addcard", existCard)
       .then((response) => {
-        console.log(response);
         history.push("/viewCards");
         alertify.success(`CARD ADD SUCCESSFULLY`);
       })
