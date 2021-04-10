@@ -1,8 +1,11 @@
 const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
+const cron = require("node-cron");
+const nodemailer = require("nodemailer");
 require('dotenv').config()
 const app = express();
+
 
 
 var corsOptions = {
@@ -24,6 +27,55 @@ const db = require("./app/models");
 // force: true will drop the table if it already exists
 db.sequelize.sync({force: true}).then(() => {
   console.log('Drop and Resync Database with { force: true }');
+});
+
+// scheduling the cron jobs for sending the reminders for timely payments;
+let transporter = nodemailer.createTransport({
+  service:'SendGrid',
+  auth: {
+    user: 'apikey',
+    pass: process.env.SENDGRID_API_KEY
+  }
+});
+
+const User = db.user;
+const Card = db.card;
+
+// cron
+cron.schedule('3 * * * * *', async () => {
+      const cards =  await Card.findAll()
+      for (let card of cards){
+        if(card.dataValues.outstanding_amount>0){
+          const user = await User.findOne({
+            where:{
+              id:card.dataValues.userId,
+            }
+          })
+          console.log(user);
+          let messageOptions = {
+            from: 'credcreditcard4@gmail.com',
+            to: user.dataValues.email,
+            subject: 'Reminder For paying bill',
+            html: 
+            `
+            <h3>Hi , ${user.dataValues.username} </h3>
+            <p>You are receiving this mail because you have outstanding amount for card</p> 
+            <b>Card Details</b>
+            <p>Card Holder Name - ${card.dataValues.card_name} </p>           
+            <p>Card No - ${card.dataValues.card_no} </p>
+            `
+          };
+          transporter.sendMail(messageOptions, function(error, info) {
+            if (error) {
+              throw error;
+            } else {
+              console.log('Email successfully sent!');
+            }
+          });
+          console.log("you need to pay your payment");
+        }
+      }
+  console.log('running every 5 seconds');
 });
 
 
