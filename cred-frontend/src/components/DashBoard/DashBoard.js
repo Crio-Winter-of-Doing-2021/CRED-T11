@@ -79,7 +79,7 @@ export default function DashBoard() {
             />
             <div className={classes.infoTitle}>
               <p>
-                faster payments for the credit card bill and one tap payment
+                Faster payments for the credit card bill and one tap payment
                 available
               </p>
             </div>
@@ -93,7 +93,7 @@ export default function DashBoard() {
             />
             <div className={classes.infoTitle}>
               <p>
-                you can check your smart statment monthwise with total
+                You can check your smart statment monthwise with total
                 transaction amount
               </p>
             </div>
@@ -107,7 +107,7 @@ export default function DashBoard() {
             />
             <div className={classes.infoTitle}>
               <p>
-                you can add your family members card as well they can authorize
+                You can add your family members card as well they can authorize
                 you via OTP
               </p>
             </div>
