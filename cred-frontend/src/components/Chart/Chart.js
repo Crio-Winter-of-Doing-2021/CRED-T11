@@ -6,7 +6,7 @@ export default function Chart({ statements }) {
   console.log(statements);
   const label = {}
   const label2 = statements.map((obj) => {
-   return label[obj.category] += obj.amount;
+   return label[obj.category] += +obj.amount;
   });
   const amount = statements.map((obj) => obj.amount);
   console.log(label2);
