@@ -9,7 +9,7 @@ const app = express();
 
 
 var corsOptions = {
-  origin: "http://localhost:3000",
+  origin: "*",
 };
 
 app.use(cors(corsOptions));
@@ -23,11 +23,11 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // database
 const db = require("./app/models");
 
-// db.sequelize.sync();
+db.sequelize.sync();
 // force: true will drop the table if it already exists
-db.sequelize.sync({force: true}).then(() => {
-  console.log('Drop and Resync Database with { force: true }');
-});
+// db.sequelize.sync({force: true}).then(() => {
+//   console.log('Drop and Resync Database with { force: true }');
+// });
 
 // scheduling the cron jobs for sending the reminders for timely payments;
 let transporter = nodemailer.createTransport({
@@ -42,7 +42,7 @@ const User = db.user;
 const Card = db.card;
 
 // cron
-cron.schedule('3 * * * * *', async () => {
+cron.schedule('0 0 * * 7', async () => {
       const cards =  await Card.findAll()
       for (let card of cards){
         if(card.dataValues.outstanding_amount>0){
@@ -59,7 +59,7 @@ cron.schedule('3 * * * * *', async () => {
             html: 
             `
             <h3>Hi , ${user.dataValues.username} </h3>
-            <p>You are receiving this mail because you have outstanding amount for card</p> 
+            <p>You are receiving this mail because you have outstanding amount ₹ ${card.dataValues.outstanding_amount} for card</p> 
             <b>Card Details</b>
             <p>Card Holder Name - ${card.dataValues.card_name} </p>           
             <p>Card No - ${card.dataValues.card_no} </p>
@@ -75,7 +75,7 @@ cron.schedule('3 * * * * *', async () => {
           console.log("you need to pay your payment");
         }
       }
-  console.log('running every 5 seconds');
+  console.log('running every once a week');
 });
 
 
