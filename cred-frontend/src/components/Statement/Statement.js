@@ -16,11 +16,14 @@ import EmptyPage from "../EmptyPage/EmptyPage";
 import BottomBar from "../BottomBar/BottomBar";
 import classes from "./Statement.module.css";
 import Chart from "../Chart/Chart";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 export default function Statement() {
   const [statements, setStatements] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
   const [smartStatement, setSmartStatement] = useState(false);
+  const [loader, setloader] = useState(true)
   let { cardId, year, month } = useParams();
 
   const sumPropertyValue = (items, prop) =>
@@ -37,9 +40,11 @@ export default function Statement() {
       .get(`api/cards/${cardId}/statements/${year}/${month}`)
       .then((response) => {
         setStatements(response.data.data);
+        setloader(false);
         setTotalAmount(sumPropertyValue(response.data.data, "amount"));
       })
       .catch((error) => {
+        setloader(false);
         console.log(error);
       });
   }, []);
@@ -85,7 +90,7 @@ export default function Statement() {
       </div>}
 
       <div className={classes.statement}>
-        {statements?.length ? (
+        { !loader ? statements?.length ? (
           !smartStatement ?
           statements?.map((statement) => {
             return (
@@ -116,7 +121,9 @@ export default function Statement() {
           }) : <Chart statements={statements} />
         ) : (
           <EmptyPage text="you have no statements" />
-        )}
+        ): <div className={classes.loader}>
+          <CircularProgress/>
+        </div> }
       </div>
       <BottomBar />
     </div>

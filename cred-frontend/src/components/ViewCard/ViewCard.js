@@ -5,17 +5,22 @@ import { setAxiosAuthToken } from "../../utils/Utils";
 import EmptyPage from "../EmptyPage/EmptyPage";
 import BottomBar from "../BottomBar/BottomBar";
 import classes from "./ViewCard.module.css";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 export default function ViewCard() {
   const [cards, setCards] = useState([]);
+  const [loader, setloader] = useState(true)
 
   useEffect(() => {
     axios
       .get("api/viewcard", setAxiosAuthToken())
       .then((response) => {
         setCards(response.data.data);
+        setloader(false);
       })
       .catch((error) => {
+        setloader(false);
         console.log(error);
       });
   }, []);
@@ -23,7 +28,7 @@ export default function ViewCard() {
     <div >
       <h3 className={classes.title}>ALL CARDS HERE</h3>
       <div className={classes.container}>
-        {cards.length ? (
+        { !loader ? cards.length ? (
           cards?.map((card, index) => {
             return (
               <Card
@@ -37,7 +42,9 @@ export default function ViewCard() {
           })
         ) : (
           <EmptyPage text="you dont have any card pls add cards" />
-        )}
+        ) : <div className={classes.loader}>
+          <CircularProgress  />
+          </div> }
       </div>
       <BottomBar />
     </div>

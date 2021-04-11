@@ -8,10 +8,11 @@ export default function Chart({ statements }) {
   const label2 = statements.map((obj) => {
    return label[obj.category] += +obj.amount;
   });
+  const labels = statements.map(obj=>obj.category)
   const amount = statements.map((obj) => obj.amount);
   console.log(label2);
   const data = {
-    // labels: [...label],
+    labels: [...labels],
     datasets: [
       {
         label: "Category",
@@ -23,6 +24,8 @@ export default function Chart({ statements }) {
           "rgba(75, 192, 192, 0.2)",
           "rgba(153, 102, 255, 0.2)",
           "rgba(255, 159, 64, 0.2)",
+          "rgba(158, 102, 255, 0.2)",
+          "rgba(252, 159, 64, 0.2)",
         ],
         borderColor: [
           "rgba(255, 99, 132, 1)",
@@ -31,6 +34,8 @@ export default function Chart({ statements }) {
           "rgba(75, 192, 192, 1)",
           "rgba(153, 102, 255, 1)",
           "rgba(255, 159, 64, 1)",
+          "rgba(158, 102, 255, 0.2)",
+          "rgba(252, 159, 64, 0.2)",
         ],
         borderWidth: 2,
       },

@@ -14,6 +14,7 @@ import classes from "./Pay.module.css";
 import Lottie from "react-lottie";
 import alertify from "alertifyjs";
 import animationData from "../../assests/party.json";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
 export default function Pay() {
   const { handleSubmit, register } = useForm();
@@ -22,6 +23,7 @@ export default function Pay() {
   const [card, setCard] = useState({});
   const [paid, setPaid] = useState(false);
   const [amount, setAmount] = useState(0);
+  const [loader, setloader] = useState(true);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -44,7 +46,7 @@ export default function Pay() {
       alertify.error("Enter valid amount");
     } else {
       setOpen(false);
-      setAmount(data.amount)
+      setAmount(data.amount);
       setAxiosAuthToken();
       axios
         .post(`api/card/${cardId}/pay`, data)
@@ -55,89 +57,102 @@ export default function Pay() {
           console.log(error);
         });
     }
-
   };
 
   useEffect(() => {
     axios
       .get(`api/viewcard/${cardId}`, setAxiosAuthToken())
       .then((response) => {
+        setloader(false);
         setCard(response.data.data);
       })
       .catch((error) => {
+        setloader(false);
         console.log(error);
       });
   }, []);
 
   return (
     <div className={classes.root}>
-      {!paid && (
-        <div className={classes.payData}>
-          <h3 className={classes.title}>Payment/Card Info</h3>
-          <p className={classes.text}>Card no. - {card?.card_no} </p>
-          <p className={classes.text}> Card Name - {card?.card_name} </p>
-          <p className={classes.text}>
-            Out Standing Amount - {card?.outstanding_amount || "0"}
-          </p>
+      {!loader ? (
+        <div>
+          {!paid && (
+            <div className={classes.payData}>
+              <h3 className={classes.title}>Payment/Card Info</h3>
+              <p className={classes.text}>Card no. - {card?.card_no} </p>
+              <p className={classes.text}> Card Name - {card?.card_name} </p>
+              <p className={classes.text}>
+                Out Standing Amount - {card?.outstanding_amount || "0"}
+              </p>
+            </div>
+          )}
+          {!paid ? (
+            +card?.outstanding_amount ? (
+              <form className={classes.form}>
+                <span className={classes.text}>Select amount*</span>
+                <input
+                  id="amount"
+                  label="amount"
+                  className={classes.TextField}
+                  name="amount"
+                  ref={register}
+                  defaultValue={card?.outstanding_amount}
+                  required
+                />
+                <div className={classes.list}>
+                  <Button
+                    onClick={handleClickOpen}
+                    variant="contained"
+                    color="primary"
+                    className={classes.button}
+                  >
+                    Pay Amount
+                  </Button>
+                </div>
+              </form>
+            ) : (
+              <div>
+                <Lottie options={defaultOptions} height={200} width={200} />
+                <p style={{ textAlign: "center" }} className={classes.text}>
+                  You are awesome user!
+                  <br />
+                  you dont have any outstanding amount
+                </p>
+              </div>
+            )
+          ) : (
+            <SuccessPage amount={amount} />
+          )}
+          <Dialog
+            open={open}
+            onClose={handleClose}
+            aria-labelledby="alert-dialog-title"
+            aria-describedby="alert-dialog-description"
+          >
+            <DialogContent>
+              <DialogContentText id="alert-dialog-description">
+                Please Confirm Your Pay Amount
+              </DialogContentText>
+            </DialogContent>
+            <DialogActions>
+              <Button onClick={handleClose} color="primary">
+                NO
+              </Button>
+              <Button
+                onClick={handleSubmit(onSubmit)}
+                color="primary"
+                autoFocus
+              >
+                YES
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      ) : (
+        <div className={classes.loader}>
+          <CircularProgress />
         </div>
       )}
-      {!paid ? (
-        +card?.outstanding_amount ? (
-          <form className={classes.form}>
-            <span className={classes.text}>Select amount*</span>
-            <input
-              id="amount"
-              label="amount"
-              className={classes.TextField}
-              name="amount"
-              ref={register}
-              defaultValue={card?.outstanding_amount}
-              required
-            />
-            <div className={classes.list}>
-              <Button
-                onClick={handleClickOpen}
-                variant="contained"
-                color="primary"
-                className={classes.button}
-              >
-                Pay Amount
-              </Button>
-            </div>
-          </form>
-        ) : (
-          <div>
-            <Lottie options={defaultOptions} height={200} width={200} />
-            <p style={{ textAlign: "center" }} className={classes.text}>
-              You are awesome user!
-              <br />
-              you dont have any outstanding amount
-            </p>
-          </div>
-        )
-      ) : (
-        <SuccessPage amount={amount} />
-      )}
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Please Confirm Your Pay Amount
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            NO
-          </Button>
-          <Button onClick={handleSubmit(onSubmit)} color="primary" autoFocus>
-            YES
-          </Button>
-        </DialogActions>
-      </Dialog>
       <BottomBar />
     </div>
   );

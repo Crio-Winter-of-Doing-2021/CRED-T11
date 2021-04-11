@@ -19,3 +19,11 @@
     margin: 0px;
     border-bottom: 1px solid blue;
 }
+
+.loader {
+  width: 100%;
+  height: 80vh;
+  justify-content: center;
+  display: flex;
+  align-items: center;
+}
