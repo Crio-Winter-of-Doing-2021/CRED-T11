@@ -15,14 +15,21 @@ import { setAxiosAuthToken } from "../../utils/Utils";
 import EmptyPage from "../EmptyPage/EmptyPage";
 import BottomBar from "../BottomBar/BottomBar";
 import classes from "./Statement.module.css";
+import Chart from "../Chart/Chart";
 
 export default function Statement() {
   const [statements, setStatements] = useState([]);
   const [totalAmount, setTotalAmount] = useState(0);
+  const [smartStatement, setSmartStatement] = useState(false);
   let { cardId, year, month } = useParams();
 
   const sumPropertyValue = (items, prop) =>
     items.reduce((a, b) => +a + +b[prop], 0);
+
+  const handleSmartOption = (value) => {
+    setSmartStatement(value);
+    console.log(smartStatement)
+  };
 
   useEffect(() => {
     setAxiosAuthToken();
@@ -53,7 +60,9 @@ export default function Statement() {
                 pay
               </Button>
             </Link>
-          ): ""}
+          ) : (
+            ""
+          )}
         </div>
         <div className={classes.month}>
           <p>
@@ -63,9 +72,21 @@ export default function Statement() {
           </p>
         </div>
       </div>
+      {statements?.length && <div className={classes.btngrp}>
+        <button
+          className={classes.btn}
+          onClick={() => handleSmartOption(false)}
+        >
+          Normal Statement
+        </button>
+        <button className={classes.btn} onClick={() => handleSmartOption(true)}>
+          Smart Statement
+        </button>
+      </div>}
 
       <div className={classes.statement}>
         {statements?.length ? (
+          !smartStatement ?
           statements?.map((statement) => {
             return (
               <Timeline key={statement.id} align="left">
@@ -92,7 +113,7 @@ export default function Statement() {
                 </TimelineItem>
               </Timeline>
             );
-          })
+          }) : <Chart statements={statements} />
         ) : (
           <EmptyPage text="you have no statements" />
         )}
@@ -101,3 +122,4 @@ export default function Statement() {
     </div>
   );
 }
+

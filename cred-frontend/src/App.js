@@ -11,7 +11,7 @@ import Statement from "./components/Statement/Statement";
 import Pay from "./components/Pay/Pay";
 import CreditForm from "./components/AddCard/CreditForm";
 
-axios.defaults.baseURL = "https://credcredit-server.herokuapp.com/";
+axios.defaults.baseURL = "http://localhost:8080/";
 
 function App() {
   const [token, setToken] = useState(null);

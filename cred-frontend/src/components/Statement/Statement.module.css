@@ -47,7 +47,7 @@
 .titleBar {
   position: fixed;
   width: 100%;
-  z-index: 10;
+  z-index: 11;
   background-color: black;
   margin-top: -10px;
   padding-top: 10px;
@@ -55,5 +55,32 @@
 }
 
 .statement {
-  padding-top: 35%;
+  padding-top: 60%;
+}
+
+.btn {
+  padding: 15px 10px;
+  margin: 10px 10px 20px 10px;
+  background: rgb(68, 62, 62);
+  border: none;
+  font-size: 14px;
+  border-radius: 8px;
+  color: rgb(50, 207, 207);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  background-color: white;
+  color: blueviolet;
+}
+
+.btngrp {
+  display: flex;
+  justify-content: space-between;
+  position: fixed;
+  padding-top: 40%;
+  background-color: black;
+  width: 100%;
+  z-index: 10;
 }
