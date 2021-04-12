@@ -1,92 +1,77 @@
-import React from 'react';
-import Avatar from '@material-ui/core/Avatar';
-import Button from '@material-ui/core/Button';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import TextField from '@material-ui/core/TextField';
-import { Link } from 'react-router-dom';
-import Grid from '@material-ui/core/Grid';
-import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import { useForm, Controller } from 'react-hook-form';
-import { useDispatch, useSelector } from 'react-redux';
-import { signNewUser } from './SignupActions';
+import React, { useContext } from "react";
+import Button from "@material-ui/core/Button";
+import { useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
+import { AuthContext } from "../../context";
+import alertify from "alertifyjs";
+import classes from "./Signup.module.css";
+import "alertifyjs/build/css/alertify.css";
+import axios from "axios";
 
-const useStyles = makeStyles((theme) => ({
-  paper: {
-    marginTop: theme.spacing(8),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    backgroundColor: theme.palette.secondary.main,
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+export default function SignUp(props) {
+  const { handleSubmit, register } = useForm();
+  const authContext = useContext(AuthContext);
 
-export default function SignIn() {
-  const classes = useStyles();
-  const createUser = useSelector(state => state.createUser)
-  const dispatch = useDispatch();
-  const { handleSubmit, control } = useForm();
-  const onSubmit = (data) => {
-    dispatch(signNewUser(data));
+  const onSubmit = async (data) => {
+    try {
+      const res = await axios.post("api/auth/signup", data);
+      alertify.success(res.data.metadata.message);
+      props.onSuccess();
+    } catch (err) {
+      alertify.error(err.response.data.metadata.message);
+    }
+  };
+  if (authContext.isLoggedIn) {
+    return <Redirect to="/dashboard" />;
   }
 
   return (
-    <Container component="main" maxWidth="xs">
-      <CssBaseline />
-      <div className={classes.paper}>
-        <Avatar className={classes.avatar}>
-        </Avatar>
-        <Typography component="h1" variant="h5">
+    <div className={classes.root}>
+      <h3 className={classes.title}>JOIN CRED</h3>
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <input
+          variant="outlined"
+          margin="normal"
+          required
+          className={classes.TextField}
+          id="username"
+          label="Username"
+          placeholder="Enter your Username"
+          name="username"
+          ref={register}
+        />
+        <input
+          variant="outlined"
+          margin="normal"
+          placeholder="Enter your Email"
+          required
+          id="email"
+          className={classes.TextField}
+          label="Email"
+          name="email"
+          ref={register}
+        />
+        <input
+          variant="outlined"
+          margin="normal"
+          type="password"
+          required
+          id="password"
+          className={classes.TextField}
+          label="Password"
+          name="password"
+          placeholder="Enter your Password"
+          ref={register}
+        />
+        <Button
+          type="submit"
+          variant="contained"
+          color="primary"
+          className={classes.submit}
+        >
           Sign Up
-        </Typography>
-        <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
-          <Controller as={TextField} variant="outlined"
-            margin="normal"
-            required
-            id="username"
-            label="Username"
-            name="username"
-            fullWidth
-            autoFocus control={control} defaultValue="" />
-          {createUser.usernameError}
-          <Controller as={TextField} variant="outlined"
-            margin="normal"
-            required
-            id="password"
-            label="Password"
-            name="password"
-            fullWidth
-            control={control} defaultValue="" />
-          {createUser.password}
-          <Button
-            type="submit"
-            fullWidth
-            variant="contained"
-            color="secondary"
-            className={classes.submit}
-          >
-            Sign Up
-          </Button>
-          <Grid container>
-            <Grid item >
-              <Link to="/login" >
-                {"Already have an account ? Login"}
-              </Link>
-            </Grid>
-          </Grid>
-        </form>
-      </div>
-    </Container>
+        </Button>
+      </form>
+    </div>
   );
 }

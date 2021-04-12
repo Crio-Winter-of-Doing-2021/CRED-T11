@@ -1,0 +1,368 @@
+.cardform{
+    max-width: 570px;
+    min-width: 490px;
+    margin: 0 auto;
+    padding-top: 50px;
+    padding-bottom: 70px;
+    width: 100%;
+}
+
+@media screen and (max-width:400px) {
+    .cardform{
+        min-width: 350px;
+        overflow-x:hidden;
+    }
+    .card{
+        max-width:350px;
+        max-height:260px;
+    }
+    .digit{
+        max-width: 10%;
+    }
+    .name{
+        max-width:60%;
+        font-size:20px;
+    }
+    .character{
+        font-size:20px !important;
+    }
+}
+
+.card { 
+    margin: 0 auto;
+    width: 470px;
+    height: 270px;
+    border-radius: 15px;
+    position: relative;
+}
+
+.container {
+    margin-bottom: -130px;
+    perspective: 1500px;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: all 0.4s ease-in-out;
+}
+
+.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.inner {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transition: transform 1s;
+    transform-style: preserve-3d;
+    box-shadow: 0 20px 60px 0 rgba(14, 42, 90, 0.55);
+}
+
+.front {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    backface-visibility: hidden;
+}
+
+.overlay {
+    background: rgba(6, 2, 29, 0.4);
+}
+
+.overlay,.content{
+    position:absolute;
+    top:0;
+}
+
+.content {
+    padding: 25px 15px;
+    color: #fff;
+}
+
+.chip {
+    margin-left: 10px;
+    margin-bottom: 35px;
+    width: 60px;
+    height: 50px;
+    background-image: url(https://pngimage.net/wp-content/uploads/2018/05/credit-card-chip-png-9.png);
+    background-size: cover;
+}
+
+.visa {
+    background-image: url(https://raw.githubusercontent.com/muhammederdem/credit-card-form/master/src/assets/images/visa.png);
+    height: 45px;
+    animation: visa 0.24s ease-in-out forwards;
+}
+
+.type {
+    width: 85px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    position: absolute;
+    right: 25px;
+    top: 25px;
+    transition: opacity 0.3s ease-in-out;
+}
+
+.number {
+    width: 92%;
+    padding: 15px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    line-height: 1;
+    color: #fff;
+    font-size: 27px;
+    position: relative;
+    cursor: pointer;
+}
+
+.digitwrapper {
+    display: inline-block;
+    width: 16px;
+}
+
+.digit {
+    display: inline-block;
+    width: 100%;
+    vertical-align: middle;
+    transition: all 0.3s ease-in-out;
+    position: absolute;
+    top: 10px;
+  }
+  .digit:nth-child(4n) {
+    margin-right: 20px;
+  }
+
+  .shown {
+    transform: translateY(0);
+    opacity: 1;
+  }
+  .hidden:nth-child(1) {
+    transform: translateY(-15px);
+    opacity: 0;
+  }
+
+  .hidden:nth-child(2) {
+    transform: translateY(15px);
+    opacity: 0;
+  }
+
+  .placeholder{
+    transition: all 0.3s ease-in-out
+  }
+
+  .name{
+    width: 70%;
+    /* background: red; */
+    padding-left: 15px;
+    padding-top: 8px;
+    position: relative;
+    cursor: pointer;
+  }
+
+  .nameContainer{
+    position: absolute;
+    top: 25px;  
+  }
+
+  .character{
+    animation: character-slide 0.6s ease-in-out forwards;
+    display: inline-block;
+    font-size: 30px;
+  }
+
+  .character .space{
+    height: 100%;
+    width: 8px;
+  }
+
+  .expiration{
+    width: 20%;
+    /* background: pink; */
+    padding-right: 10px;
+    padding-left: 15px;
+    padding-top: 5px;
+    cursor: pointer;
+  }
+
+  .doubledigit{
+    display: inline-block;
+    text-align: center;
+  }
+
+  .doubledigit:nth-child(2n+1){
+      width:29px;
+  }
+
+  .doubledigit:nth-child(2){
+      margin-left: 2px;
+  }
+
+  .toggle1 {
+    animation: toggle1 0.24s ease-in-out forwards;
+  }
+
+  .toggle2 {
+    animation: toggle2 0.24s ease-in-out forwards;
+  }
+
+
+
+  .name,.expiration {
+      display: inline-block;
+      padding-bottom: 9px;
+      font-weight: 500,
+    }
+
+    .cardInputs{
+        background: #fff;
+        box-shadow: 0 30px 60px 0 rgba(90, 116, 148, 0.4);
+        border-radius: 10px;
+        padding-top: 150px; 
+    }
+
+    .monthinput,
+    .yearinput {
+      width: 44%;
+      margin-right: 15px;
+    }
+  
+
+    .cardform .form{
+        margin: 0 auto;
+        padding: 35px;
+        display: grid;
+        grid-gap: 10px;
+        grid-template-columns: 1fr 2fr 1fr;
+        width: 100%;
+    }
+
+    .lginput{
+        grid-column: 1 / 3;
+    }
+    .medinput {
+        grid-column: 1 / 3;
+      }
+    
+      .sminput {
+        grid-column: 3 / 4;
+      }
+    .nameinput,
+    .numberinput
+    {
+        width: 100%;
+    }
+
+    .label{
+        display: block;
+        font-size: 14px;
+        margin-bottom: 5px;
+        font-weight: 500;
+        color: #1a3b5d;
+        width: 100%;
+        display: block;
+        user-select: none;
+    }
+
+    .button{
+        height: 55px;
+        background: #2364d2;
+        border: none;
+        border-radius: 5px;
+        font-size: 22px;
+        font-weight: 500;
+        font-family: "Source Sans Pro", sans-serif;
+        box-shadow: 3px 10px 20px 0px rgba(35, 100, 210, 0.3);
+        color: #fff;
+        margin-top: 20px;
+        cursor: pointer;
+        transition: all 0.3s ease-in-out;
+
+    }
+    .select {
+        -webkit-appearance: none;
+        background-image: url("data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADIAAAAeCAYAAABuUU38AAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAUxJREFUeNrM1sEJwkAQBdCsngXPHsQO9O5FS7AAMVYgdqAd2IGCDWgFnryLFQiCZ8EGnJUNimiyM/tnk4HNEAg/8y6ZmMRVqz9eUJvRaSbvutCZ347bXVJy/ZnvTmdJ862Me+hAbZCTs6GHpyUi1tTSvPnqTpoWZPUa7W7ncT3vK4h4zVejy8QzM3WhVUO8ykI6jOxoGA4ig3BLHcNFSCGqGAkig2yqgpEiMsjSfY9LxYQg7L6r0X6wS29YJiYQYecemY+wHrXD1+bklGhpAhBDeu/JfIVGxaAQ9sb8CI+CQSJ+QmJg0Ii/EE2MBiIXooHRQhRCkBhNhBcEhLkwf05ZCG8ICCOpk0MULmvDSY2M8UawIRExLIQIEgHDRoghihgRIgiigBEjgiFATBACAgFgghEwSAAGgoBCBBgYAg5hYKAIFYgHBo6w9RRgAFfy160QuV8NAAAAAElFTkSuQmCC");
+        background-size: 12px;
+        background-position: 90% center;
+        background-repeat: no-repeat;
+        padding-right: 30px;
+    
+      }
+    /* div {
+        font-size: 18px;
+        line-height: 1;
+        white-space: nowrap;
+        max-width: 100%;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    } */
+
+    .input,.select{
+        height: 50px;
+        border-radius: 5px;
+        overflow-x: auto;
+        border: 1px solid #ced6e0;
+        box-shadow: none;
+        font-size: 18px;
+        padding: 5px 15px;
+        background: none;
+        color: #1a3b5d;
+        font-family: "Source Sans Pro", sans-serif;
+        transition: all 0.3s ease-in-out;
+        letter-spacing: 1px;
+    }
+    .input:hover{
+        border-color: #3d9cff;
+
+    }
+    .input:focus{
+        box-shadow: 0px 10px 20px -13px rgba(32, 56, 117, 0.35);
+    }
+  @keyframes toggle1 {
+    0% {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+  @keyframes toggle2 {
+    0% {
+      opacity: 0;
+      transform: translateY(15px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+
+
+@keyframes character-slide {
+0% {
+    opacity: 0;
+    transform: translateX(50px) rotate(180deg);
+}
+20% {
+    opacity: 1;
+}
+100% {
+    transform: translateY(0) rotate(0);
+}
+}
+
+
+@keyframes visa {
+    0% {
+      opacity: 0;
+      transform: translateY(20px);
+    }
+    100% {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

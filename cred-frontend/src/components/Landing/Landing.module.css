@@ -1,0 +1,65 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  padding: 20px 10px;
+}
+
+.para {
+  text-align: justify;
+}
+
+.regCard {
+  /* background-color: white; */
+  border: 1px solid blue;
+  margin: 10px;
+}
+
+.root {
+  height: 100vh;
+  background-color: #131419;
+}
+
+.logo {
+  height: 80px;
+  width: 80px;
+  margin: 10px;
+  box-shadow: -6px -6px 16px 0 rgba(255, 255, 255, 0.08),
+    8px 8px 8px 0 rgba(0, 0, 0, 0.3);
+}
+
+.titleData {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.title {
+  display: flex;
+  flex-direction: column;
+  color: white;
+}
+
+.btn {
+  padding: 15px 10px;
+  width: 50%;
+  margin: 10px 10px 20px 10px;
+  background: rgb(68, 62, 62);
+  border: none;
+  font-size: 14px;
+  border-radius: 8px;
+  color: rgb(50, 207, 207);
+  font-weight: bold;
+  text-transform: uppercase;
+}
+
+.btn:hover {
+  background-color: white;
+  color: blueviolet;
+}
+
+.btngrp {
+  display: flex;
+  justify-content: space-between;
+}
